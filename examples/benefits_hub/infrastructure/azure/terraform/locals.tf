@@ -1,0 +1,3 @@
+locals {
+  product = "bh"
+}
