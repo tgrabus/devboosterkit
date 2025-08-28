@@ -4,6 +4,7 @@ variable "name" {
 
 variable "value" {
   type = string
+  default = null
 }
 
 variable "key_vault_id" {
@@ -22,5 +23,5 @@ variable "ignore_value_changes" {
 
 variable "expiration_date" {
   type    = string
-  default = "2029-12-31T23:59:59Z"
+  default = null
 }
