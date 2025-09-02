@@ -38,6 +38,6 @@ variable "ip_whitelist" {
   type = map(object({
     ip_address = string
   }))
-  default = {}
+  default     = {}
   description = "Map of IPs in CIDR format"
 }

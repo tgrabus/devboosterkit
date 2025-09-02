@@ -3,7 +3,7 @@ variable "name" {
 }
 
 variable "value" {
-  type = string
+  type    = string
   default = null
 }
 

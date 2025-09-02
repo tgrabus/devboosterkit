@@ -13,8 +13,8 @@ output "resource_group_name" {
 
 output "subnets" {
   description = "Information about the subnets created"
-  value       = { for key, subnet in module.subnets : key => {
-    id = subnet.resource_id
+  value = { for key, subnet in module.subnets : key => {
+    id   = subnet.resource_id
     name = subnet.name
-  }}
+  } }
 }

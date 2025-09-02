@@ -23,7 +23,7 @@ variable "short_description" {
 }
 
 variable "address_space" {
-  
+
   type        = string
   description = "Address space in CIDR format"
 }
@@ -31,7 +31,7 @@ variable "address_space" {
 variable "subnets" {
   type = map(object({
     cidr_range_size = number
-    idx = number
+    idx             = number
     nsg_rules = optional(list(object({
       name                    = string
       protocol                = string

@@ -9,6 +9,6 @@ output "name" {
 output "identity" {
   value = {
     resource_id = module.managed_identity.resource_id
-    client_id = module.managed_identity.client_id
+    client_id   = module.managed_identity.client_id
   }
 }

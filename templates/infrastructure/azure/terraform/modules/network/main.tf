@@ -1,10 +1,10 @@
 locals {
   alphabet = split("", "abcdefghijklmnopqrstuvwxyz")
-  alphabet_subnet_map = { 
-    for key, subnet in var.subnets : local.alphabet[subnet.idx] => key 
+  alphabet_subnet_map = {
+    for key, subnet in var.subnets : local.alphabet[subnet.idx] => key
   }
-  subnet_prefixes = { 
-    for key, subnet in var.subnets : local.alphabet[subnet.idx] => subnet.cidr_range_size 
+  subnet_prefixes = {
+    for key, subnet in var.subnets : local.alphabet[subnet.idx] => subnet.cidr_range_size
   }
   subnet_address_prefix_map = {
     for key, address_prefix in module.cidr_calculator.address_prefixes : local.alphabet_subnet_map[key] => address_prefix
@@ -25,10 +25,10 @@ module "vnet" {
 
 # Calculate address prefixes for subnets
 module "cidr_calculator" {
-  source  = "Azure/avm-utl-network-ip-addresses/azurerm"
-  version = "0.1.0"
-  address_prefixes = local.subnet_prefixes
-  address_space = var.address_space
+  source                        = "Azure/avm-utl-network-ip-addresses/azurerm"
+  version                       = "0.1.0"
+  address_prefixes              = local.subnet_prefixes
+  address_space                 = var.address_space
   address_prefix_efficient_mode = false
 }
 
@@ -40,7 +40,7 @@ module "subnets" {
   name             = module.subnet_naming[each.key].result
   address_prefixes = [local.subnet_address_prefix_map[each.key]]
 
-  delegation =  [
+  delegation = [
     for delegation in each.value.delegations : {
       name = delegation.name
       service_delegation = {
@@ -64,7 +64,7 @@ resource "azurerm_network_security_group" "subnets" {
   name                = module.nsg_naming[each.key].result
   location            = var.location
   resource_group_name = module.resource_group.name
-  
+
   dynamic "security_rule" {
     for_each = lookup(each.value, "nsg_rules", [])
     content {

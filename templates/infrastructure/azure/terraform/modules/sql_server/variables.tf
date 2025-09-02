@@ -1,0 +1,116 @@
+variable "stage" {
+  type        = string
+  description = "Stage the resource is provisioned"
+}
+
+variable "location" {
+  type        = string
+  description = "Azure region"
+}
+
+variable "instance" {
+  type        = number
+  description = "Environment instance for region"
+}
+
+variable "product" {
+  type        = string
+  description = "The product name this resource belongs to"
+  default     = "finzeo"
+}
+
+variable "short_description" {
+  type = string
+}
+
+variable "server_version" {
+  type    = string
+  default = "12.0"
+}
+
+variable "public_network_access_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "azuread_administrator" {
+  type = object({
+    azuread_authentication_only = optional(bool, true)
+    login_username              = string
+    object_id                   = string
+  })
+}
+
+variable "elastic_pool" {
+  type = object({
+    max_size_gb    = optional(number, 50)
+    zone_redundant = optional(bool, false)
+    sku = optional(object({
+      name     = optional(string, "StandardPool")
+      capacity = optional(number, 50)
+      tier     = optional(string, "Standard")
+      family   = optional(string, null)
+    }), {})
+    per_database_settings = optional(object({
+      min_capacity = optional(number, 0)
+      max_capacity = optional(number, 50)
+    }), {})
+  })
+}
+
+variable "diagnostic_settings" {
+  type = object({
+    workspace_resource_id = string
+    enabled               = optional(bool, true)
+  })
+}
+
+variable "databases" {
+  type = map(object({
+    collation   = optional(string, "SQL_Latin1_General_CP1_CI_AS")
+    max_size_gb = optional(number)
+
+    short_term_retention_policy = optional(object({
+      retention_days           = optional(number, 7)
+      backup_interval_in_hours = optional(number, 12)
+    }), {})
+
+    long_term_retention_policy = optional(object({
+      weekly_retention  = optional(string, "PT0S")
+      monthly_retention = optional(string, "PT0S")
+      yearly_retention  = optional(string, "PT0S")
+      week_of_year      = optional(number, 1)
+    }), {})
+  }))
+}
+
+variable "vulnerability_assessment" {
+  type = object({
+    enabled         = optional(bool, true)
+    retention_days  = optional(number, 90)
+    email_addresses = optional(list(string), [])
+  })
+
+  default = {}
+}
+
+variable "private_endpoints" {
+  type = map(object({
+    private_dns_zone_resource_id = string
+    subnet_resource_id           = string
+  }))
+}
+
+variable "allowed_ips" {
+  type = map(object({
+    ip_address = string
+  }))
+  default     = {}
+  description = "Cidr format"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to be applied to the resource"
+  default     = {}
+}
