@@ -16,13 +16,11 @@ resource "azurerm_monitor_diagnostic_setting" "elastic_pool" {
   target_resource_id         = module.elastic_pool.resource_id
   log_analytics_workspace_id = var.diagnostic_settings.workspace_resource_id
 
-  metric {
+  enabled_metric {
     category = "Basic"
-    enabled  = var.diagnostic_settings.enabled
   }
 
-  metric {
+  enabled_metric {
     category = "InstanceAndAppAdvanced"
-    enabled  = var.diagnostic_settings.enabled
   }
 }

@@ -18,8 +18,7 @@ resource "azurerm_monitor_diagnostic_setting" "sql_server" {
   target_resource_id         = module.server.resource_id
   log_analytics_workspace_id = var.diagnostic_settings.workspace_resource_id
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
-    enabled  = var.diagnostic_settings.enabled
   }
 }
