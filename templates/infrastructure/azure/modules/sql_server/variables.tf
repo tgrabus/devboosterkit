@@ -20,7 +20,8 @@ variable "product" {
 }
 
 variable "short_description" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "server_version" {
@@ -56,6 +57,7 @@ variable "elastic_pool" {
       max_capacity = optional(number, 50)
     }), {})
   })
+  default = {}
 }
 
 variable "diagnostic_settings" {
@@ -82,6 +84,7 @@ variable "databases" {
       week_of_year      = optional(number, 1)
     }), {})
   }))
+  default = {}
 }
 
 variable "vulnerability_assessment" {
@@ -99,14 +102,13 @@ variable "private_endpoints" {
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
   }))
+  default = {}
 }
 
 variable "allowed_ips" {
-  type = map(object({
-    ip_address = string
-  }))
+  type        = map(string)
   default     = {}
-  description = "Cidr format"
+  description = "Map of IPs in CIDR format"
 }
 
 variable "tags" {

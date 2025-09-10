@@ -30,14 +30,8 @@ variable "product" {
   description = "The product name this environment belongs to"
 }
 
-variable "vnet_address_space" {
-  type = string
-}
-
-variable "ip_whitelist" {
-  type = map(object({
-    ip_address = string
-  }))
+variable "allowed_ips" {
+  type        = map(string)
   default     = {}
-  description = "Map of IPs in CIDR format"
+  description = "Map of whitelisted IPs in CIDR format"
 }

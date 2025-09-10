@@ -14,9 +14,9 @@ locals {
     subresource_name                = "sqlServer"
   } }
 
-  normalized_allowed_ips = { for key, rule in var.allowed_ips : key => {
-    start_ip_address = cidrhost(rule.ip_address, 0)
-    end_ip_address   = cidrhost(rule.ip_address, -1)
+  normalized_allowed_ips = { for key, ip_address in var.allowed_ips : key => {
+    start_ip_address = cidrhost(ip_address, 0)
+    end_ip_address   = cidrhost(ip_address, -1)
   } }
 
   firewall_rules = local.normalized_allowed_ips

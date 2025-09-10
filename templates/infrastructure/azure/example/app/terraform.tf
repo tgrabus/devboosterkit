@@ -25,6 +25,7 @@ terraform {
 }
 
 provider "azurerm" {
+  subscription_id = lookup(var.subscription_ids, var.stage)
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
@@ -33,7 +34,4 @@ provider "azurerm" {
       purge_soft_delete_on_destroy = false
     }
   }
-
-  subscription_id = lookup(var.subscription_ids, var.stage)
-  use_msi         = false
 }

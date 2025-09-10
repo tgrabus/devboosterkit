@@ -30,17 +30,6 @@ module "naming_db" {
   short_description = each.key
 }
 
-# # Naming for a Storage Account
-# module "sa_naming" {
-#   source            = "../../modules/conventions/resources"
-#   stage             = var.stage
-#   location          = var.location
-#   instance          = var.instance
-#   product           = var.product
-#   resource_type     = "azurerm_storage_account"
-#   short_description = "sql"
-# }
-
 # Naming for a Private Endpoint
 module "naming_pe" {
   for_each          = var.private_endpoints

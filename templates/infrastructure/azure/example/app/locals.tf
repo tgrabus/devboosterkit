@@ -1,5 +1,4 @@
 locals {
-
   tags = {
     environment = "${var.stage}_${var.location}_${var.instance}"
     product     = var.product
