@@ -30,7 +30,8 @@ variable "resource_group_name" {
 }
 
 variable "os_type" {
-  type = string
+  type    = string
+  default = "Linux"
 
   validation {
     condition     = contains(["Windows", "Linux"], var.os_type)
@@ -39,7 +40,8 @@ variable "os_type" {
 }
 
 variable "sku_name" {
-  type = string
+  type    = string
+  default = "F1"
 }
 
 variable "properties" {
@@ -51,6 +53,11 @@ variable "properties" {
     worker_count                    = optional(number)
   })
   default = {}
+}
+
+variable "action_group_id" {
+  type = string
+  description = "Action Group to use when alerts are raised"
 }
 
 variable "tags" {

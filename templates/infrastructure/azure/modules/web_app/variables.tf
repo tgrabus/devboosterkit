@@ -42,13 +42,15 @@ variable "virtual_network_subnet_id" {
 }
 
 variable "app_settings" {
-  type = map(string)
+  type    = map(string)
+  default = {}
 }
 
-variable "docker" {
+variable "app_stack" {
   type = object({
-    docker_registry_url = string
-    docker_image_name   = string
+    dotnet_version      = optional(string)
+    docker_registry_url = optional(string)
+    docker_image_name   = optional(string)
   })
 }
 
@@ -103,17 +105,20 @@ variable "private_endpoints" {
   default     = {}
 }
 
-variable "firewall_rules" {
-  type = map(object({
-    ip_address = optional(string)
-  }))
+variable "allowed_ips" {
+  type = map(string)
   default = {}
 }
 
-variable "observability" {
+variable "log_analytics" {
   type = object({
     la_workspace_id   = string
     retention_in_days = optional(number, 90)
   })
   default = null
+}
+
+variable "action_group_id" {
+  type = string
+  description = "Action Group to use when alerts are raised"
 }

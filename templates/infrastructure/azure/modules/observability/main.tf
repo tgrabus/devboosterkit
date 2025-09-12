@@ -9,4 +9,5 @@ module "this" {
   log_analytics_workspace_internet_query_enabled     = true
   log_analytics_workspace_retention_in_days          = var.retention_in_days
   log_analytics_workspace_sku                        = "PerGB2018"
+  tags = var.tags
 }

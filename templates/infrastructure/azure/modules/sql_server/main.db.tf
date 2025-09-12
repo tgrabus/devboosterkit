@@ -1,4 +1,4 @@
-module "database" {
+module "databases" {
   for_each                            = var.databases
   source                              = "Azure/avm-res-sql-server/azurerm//modules/database"
   version                             = "0.1.5"

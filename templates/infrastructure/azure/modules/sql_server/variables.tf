@@ -111,6 +111,11 @@ variable "allowed_ips" {
   description = "Map of IPs in CIDR format"
 }
 
+variable "action_group_id" {
+  type = string
+  description = "Action Group to use when alerts are raised"
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to the resource"

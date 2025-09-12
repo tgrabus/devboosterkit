@@ -24,3 +24,30 @@ resource "azurerm_monitor_diagnostic_setting" "elastic_pool" {
     category = "InstanceAndAppAdvanced"
   }
 }
+
+resource "azurerm_monitor_metric_alert" "elastic_pool" {
+  for_each            = local.elastic_pool.alerts
+  name                = "${module.naming_pool.result}-${each.key}"
+  resource_group_name = module.resource_group.name
+  scopes              = [module.elastic_pool.resource_id]
+  frequency           = each.value.frequency
+  window_size         = each.value.window
+  severity            = each.value.severity
+  tags                = var.tags
+
+  action {
+    action_group_id = var.action_group_id
+  }
+
+  dynamic "criteria" {
+    for_each = each.value.criterias
+
+    content {
+      metric_namespace = "microsoft.sql/servers/elasticpools"
+      operator         = "GreaterThan"
+      metric_name      = criteria.value.metric_name
+      aggregation      = criteria.value.aggregation
+      threshold        = criteria.value.threshold
+    }
+  }
+}

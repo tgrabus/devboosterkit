@@ -5,12 +5,7 @@ variable "location" {
 
 variable "stage" {
   type        = string
-  description = "Stage the resource is provisioned"
-
-  validation {
-    condition     = contains(["dev", "qa", "staging", "prod"], var.stage)
-    error_message = "Only dev, qa, staging, prod are allowed."
-  }
+  description = "Stage the resource is provisioned eg. prod, qa, dev .."
 }
 
 variable "instance" {

@@ -1,15 +1,16 @@
 locals {
-  ip_restrictions = { for key, item in var.firewall_rules : key => {
+  ip_restrictions = { for key, item in var.allowed_ips : key => {
     name       = key
     action     = "Allow"
-    ip_address = lookup(item, "ip_address", null)
-    priority   = index(keys(var.firewall_rules), key) + 100
+    ip_address = item
+    priority   = index(keys(var.allowed_ips), key) + 100
   } }
 
   application_stack = {
     default = {
-      docker_image_name   = var.docker.docker_image_name
-      docker_registry_url = var.docker.docker_registry_url
+      docker_image_name   = var.app_stack.docker_image_name
+      docker_registry_url = var.app_stack.docker_registry_url
+      dotnet_version      = var.app_stack.dotnet_version
     }
   }
 
@@ -30,13 +31,13 @@ locals {
     user_assigned_resource_ids = [module.managed_identity.resource_id]
   }
 
-  enable_application_insights = var.observability != null ? true : false
+  enable_application_insights = var.log_analytics != null ? true : false
 
-  app_insights = var.observability != null ? {
+  app_insights = var.log_analytics != null ? {
     name                       = module.naming_app_insights.result
     resource_group_name        = var.resource_group_name
-    workspace_resource_id      = var.observability.la_workspace_id
-    retention_in_days          = var.observability.retention_in_days
+    workspace_resource_id      = var.log_analytics.la_workspace_id
+    retention_in_days          = var.log_analytics.retention_in_days
     internet_ingestion_enabled = true
     internet_query_enabled     = true
     application_type           = "web"

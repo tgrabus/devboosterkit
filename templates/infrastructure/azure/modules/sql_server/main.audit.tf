@@ -6,14 +6,14 @@ module "audit_storage" {
   stage                         = var.stage
   short_description             = var.short_description
   resource_group_name           = module.resource_group.name
-  roles                         = local.audit.roles
+  roles                         = local.audit_storage.roles
   enable_firewall               = true
   public_network_access_enabled = true
   shared_access_key_enabled     = true
   network_bypass                = ["AzureServices"]
   storage_tier                  = "Standard"
   replication_type              = "LRS"
-  containers                    = local.audit.containers
+  containers                    = local.audit_storage.containers
   tags                          = var.tags
 }
 
@@ -37,7 +37,7 @@ resource "azurerm_mssql_server_security_alert_policy" "alert_policy" {
 
 resource "azurerm_mssql_server_vulnerability_assessment" "vulnerability_assessment" {
   server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.alert_policy.id
-  storage_container_path          = "${module.audit_storage.primary_blob_endpoint}${local.audit.containers.vulnerability_assessment.name}/"
+  storage_container_path          = "${module.audit_storage.primary_blob_endpoint}${local.audit_storage.containers.vulnerability_assessment.name}/"
   storage_account_access_key      = module.audit_storage.primary_key
 
   recurring_scans {

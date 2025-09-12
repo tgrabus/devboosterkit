@@ -1,8 +1,8 @@
-module "observability" {
-  source            = "../../modules/observability"
+module "resource_group" {
+  source            = "../resource_group"
   instance          = var.instance
   location          = var.location
   stage             = var.stage
   product           = var.product
-  short_description = "observability"
+  short_description = var.short_description
 }
