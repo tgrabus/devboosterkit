@@ -5,7 +5,7 @@ module "audit_storage" {
   product                       = var.product
   stage                         = var.stage
   short_description             = var.short_description
-  resource_group_name           = module.resource_group.name
+  resource_group_name           = var.resource_group_name
   roles                         = local.audit_storage.roles
   enable_firewall               = true
   public_network_access_enabled = true
@@ -27,7 +27,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "audit_policy" {
 
 resource "azurerm_mssql_server_security_alert_policy" "alert_policy" {
   server_name          = module.server.resource_name
-  resource_group_name  = module.resource_group.name
+  resource_group_name  = var.resource_group_name
   state                = var.vulnerability_assessment.enabled ? "Enabled" : "Disabled"
   retention_days       = var.vulnerability_assessment.retention_days
   email_addresses      = var.vulnerability_assessment.email_addresses

@@ -2,7 +2,7 @@ module "databases" {
   for_each                            = var.databases
   source                              = "Azure/avm-res-sql-server/azurerm//modules/database"
   version                             = "0.1.5"
-  sql_server                          = local.sql_server
+  sql_server                          = local.sql_server_reference
   name                                = module.naming_db[each.key].result
   create_mode                         = "Default"
   collation                           = each.value.collation

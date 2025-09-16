@@ -1,34 +1,34 @@
 locals {
   alerts = [
     {
-      metric_name = "Http4xx"
-      aggregation = "Average"
+      metric_name       = "Http4xx"
+      aggregation       = "Average"
       alert_sensitivity = "Medium"
-      operator = "GreaterThan"
+      operator          = "GreaterThan"
     },
     {
-      metric_name = "Http5xx"
-      aggregation = "Average"
+      metric_name       = "Http5xx"
+      aggregation       = "Average"
       alert_sensitivity = "Medium"
-      operator = "GreaterThan"
+      operator          = "GreaterThan"
     },
     {
-      metric_name = "Requests"
-      aggregation = "Average"
+      metric_name       = "Requests"
+      aggregation       = "Average"
       alert_sensitivity = "Medium"
-      operator = "GreaterThan"
+      operator          = "GreaterThan"
     },
     {
-      metric_name = "RequestsInApplicationQueue"
-      aggregation = "Average"
+      metric_name       = "RequestsInApplicationQueue"
+      aggregation       = "Average"
       alert_sensitivity = "Medium"
-      operator = "GreaterThan"
+      operator          = "GreaterThan"
     },
     {
-      metric_name = "HttpResponseTime"
-      aggregation = "Average"
+      metric_name       = "HttpResponseTime"
+      aggregation       = "Average"
       alert_sensitivity = "Medium"
-      operator = "GreaterThan"
+      operator          = "GreaterThan"
     },
   ]
 }

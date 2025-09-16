@@ -3,7 +3,7 @@ resource "azurerm_network_security_group" "subnets" {
   for_each            = var.subnets
   name                = module.nsg_naming[each.key].result
   location            = var.location
-  resource_group_name = module.resource_group.name
+  resource_group_name = var.resource_group_name
 
   dynamic "security_rule" {
     for_each = lookup(each.value, "nsg_rules", [])

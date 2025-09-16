@@ -99,14 +99,13 @@ variable "private_endpoints" {
   type = map(object({
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
-    resource_group_name          = string
   }))
   description = "A map of private endpoints to create"
   default     = {}
 }
 
 variable "allowed_ips" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 
@@ -119,6 +118,6 @@ variable "log_analytics" {
 }
 
 variable "action_group_id" {
-  type = string
+  type        = string
   description = "Action Group to use when alerts are raised"
 }

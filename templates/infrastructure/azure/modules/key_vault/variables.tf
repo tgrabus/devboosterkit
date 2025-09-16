@@ -1,11 +1,6 @@
 variable "stage" {
   type        = string
   description = "Stage the resource is provisioned"
-
-  validation {
-    condition     = contains(["development", "qualification", "sandbox", "production"], var.stage)
-    error_message = "Only development, qualification, sandbox, production are allowed."
-  }
 }
 
 variable "location" {
@@ -61,9 +56,10 @@ variable "private_endpoints" {
     subnet_resource_id           = string
   }))
   description = "A map of private endpoints to create"
+  default     = {}
 }
 
-variable "enable_firewall" {
+variable "public_network_access_enabled" {
   description = "Enable firewall and restrict access to trusted networks"
   type        = bool
   default     = true
@@ -71,8 +67,8 @@ variable "enable_firewall" {
 
 variable "allowed_ip_ranges" {
   description = "List of allowed IPs when firewall is enabled"
-  type        = list(string)
-  default     = []
+  type        = map(string)
+  default     = {}
 }
 
 variable "soft_delete_retention_days" {
@@ -97,9 +93,11 @@ variable "tags" {
 
 variable "secrets" {
   type = map(object({
-    name            = string
-    value           = string
-    content_type    = optional(string, "string")
-    expiration_date = optional(string)
+    name                 = string
+    value                = string
+    content_type         = optional(string, "string")
+    expiration_date      = optional(string)
+    ignore_value_changes = optional(bool, false)
   }))
+  default = {}
 }

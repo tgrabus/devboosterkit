@@ -56,7 +56,7 @@ variable "properties" {
 }
 
 variable "action_group_id" {
-  type = string
+  type        = string
   description = "Action Group to use when alerts are raised"
 }
 

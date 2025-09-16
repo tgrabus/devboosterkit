@@ -8,7 +8,7 @@ output "sql_server" {
 output "databases" {
   value = {
     for key, db in module.databases : key => {
-      name = db.name
+      name        = db.name
       conn_string = "Server=tcp:${module.server.resource.fully_qualified_domain_name},1433;Initial Catalog=${db.name};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";"
     }
   }

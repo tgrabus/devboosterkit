@@ -11,7 +11,7 @@ module "naming" {
 
 # Naming for a Action Group
 module "naming_action_groups" {
-  for_each = var.action_groups
+  for_each          = var.action_groups
   source            = "../naming"
   resource_type     = "azurerm_monitor_action_group"
   stage             = var.stage

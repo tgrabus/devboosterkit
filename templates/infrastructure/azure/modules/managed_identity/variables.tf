@@ -1,11 +1,6 @@
 variable "stage" {
   type        = string
   description = "Stage the resource is provisioned"
-
-  validation {
-    condition     = contains(["development", "qualification", "sandbox", "production"], var.stage)
-    error_message = "Only development, qualification, sandbox, production are allowed."
-  }
 }
 
 variable "location" {

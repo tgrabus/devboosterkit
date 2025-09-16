@@ -18,7 +18,7 @@ locals {
     ip_restriction                                = local.ip_restrictions
     scm_ip_restriction                            = local.ip_restrictions
     always_on                                     = var.always_on
-    container_registry_managed_identity_client_id = module.managed_identity.resource_id
+    container_registry_managed_identity_client_id = module.managed_identity.client_id
     container_registry_use_managed_identity       = true
     http2_enabled                                 = var.http2_enabled
     vnet_route_all_enabled                        = var.vnet_route_all_enabled

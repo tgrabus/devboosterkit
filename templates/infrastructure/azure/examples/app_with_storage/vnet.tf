@@ -1,7 +1,6 @@
 locals {
   subnets = {
     webapps = {
-      name            = "webapps"
       cidr_range_size = 26
       idx             = 0
       delegations = [
@@ -20,7 +19,6 @@ locals {
       ]
     }
     functions = {
-      name            = "functions"
       cidr_range_size = 26
       idx             = 1
       delegations = [
@@ -39,13 +37,11 @@ locals {
       ]
     }
     pe = {
-      name            = "pe"
       cidr_range_size = 25
       idx             = 3
       nsg_rules       = []
     }
     database = {
-      name            = "database"
       cidr_range_size = 27
       idx             = 4
       nsg_rules = [
@@ -62,13 +58,13 @@ locals {
 }
 
 module "vnet" {
-  source            = "../../modules/network"
-  instance          = var.instance
-  location          = var.location
-  stage             = var.stage
-  product           = var.product
-  short_description = "vnet"
-  address_space     = var.vnet_address_space
-  subnets           = local.subnets
-  tags              = local.tags
+  source              = "../../modules/network"
+  instance            = var.instance
+  location            = var.location
+  stage               = var.stage
+  product             = var.product
+  resource_group_name = module.resource_groups[local.resource_groups.vnet].name
+  address_space       = var.vnet_address_space
+  subnets             = local.subnets
+  tags                = local.tags
 }

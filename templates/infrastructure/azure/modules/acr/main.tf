@@ -25,7 +25,7 @@ module "this" {
   version                       = "0.4.0"
   name                          = module.naming.result
   location                      = var.location
-  resource_group_name           = module.resource_group.name
+  resource_group_name           = var.resource_group_name
   sku                           = var.sku
   admin_enabled                 = false
   public_network_access_enabled = var.public_network_access_enabled

@@ -1,7 +1,5 @@
 locals {
   sql_server = {
-    resource_id = module.server.resource_id
-    
     azuread_administrator = {
       azuread_authentication_only = var.azuread_administrator.azuread_authentication_only
       login_username              = var.azuread_administrator.login_username
@@ -17,12 +15,12 @@ locals {
       subresource_name                = "sqlServer"
     } }
 
-    firewall_rules = { 
-      for key, ip_address in var.allowed_ips : key => 
+    firewall_rules = {
+      for key, ip_address in var.allowed_ips : key =>
       {
         start_ip_address = cidrhost(ip_address, 0)
         end_ip_address   = cidrhost(ip_address, -1)
-      } 
+      }
     }
 
     managed_identities = {
@@ -42,6 +40,10 @@ locals {
         principal_id               = module.server.resource.identity[0].principal_id
       }
     }
+  }
+
+  sql_server_reference = {
+    resource_id = module.server.resource_id
   }
 
   elastic_pool = {

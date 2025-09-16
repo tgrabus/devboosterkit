@@ -37,6 +37,7 @@ variable "allowed_ips" {
   description = "Map of whitelisted IPs in CIDR format"
 }
 
+
 variable "vnet_address_space" {
   type        = string
   description = "The address space for the Virtual Network in CIDR notation (e.g., '10.0.0.0/16')"
@@ -48,7 +49,12 @@ variable "sql_administrator_group" {
 }
 
 variable "email_receivers" {
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
   description = "Email addresses used in action group"
+}
+
+variable "public_network_access_enabled" {
+  type    = bool
+  default = false
 }

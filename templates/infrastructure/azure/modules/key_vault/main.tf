@@ -1,6 +1,6 @@
 locals {
   network_acl = {
-    ip_rules = var.enable_firewall ? var.allowed_ip_ranges : []
+    ip_rules = var.public_network_access_enabled ? values(var.allowed_ip_ranges) : []
   }
 
   private_endpoints = { for key, endpoint in var.private_endpoints : key => {
@@ -12,7 +12,7 @@ locals {
   } }
 }
 
-module "key_vault" {
+module "this" {
   source                         = "Azure/avm-res-keyvault-vault/azurerm"
   version                        = "0.10.1"
   name                           = module.naming_kv.result
@@ -20,7 +20,7 @@ module "key_vault" {
   resource_group_name            = var.resource_group_name
   tenant_id                      = var.tenant_id
   legacy_access_policies_enabled = false
-  public_network_access_enabled  = var.enable_firewall
+  public_network_access_enabled  = var.public_network_access_enabled
   purge_protection_enabled       = var.purge_protection_enabled
   sku_name                       = var.sku_name
   soft_delete_retention_days     = var.soft_delete_retention_days

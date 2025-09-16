@@ -71,8 +71,8 @@ variable "sftp_enabled" {
 
 variable "allowed_ip_ranges" {
   description = "List of allowed IPs when firewall is enabled"
-  type        = list(string)
-  default     = []
+  type        = map(string)
+  default     = {}
 }
 
 variable "network_bypass" {
@@ -129,7 +129,7 @@ variable "allowed_copy_scope" {
 
 variable "default_to_oauth_authentication" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "shared_access_key_enabled" {

@@ -24,6 +24,10 @@ variable "short_description" {
   default = null
 }
 
+variable "resource_group_name" {
+  type = string
+}
+
 variable "server_version" {
   type    = string
   default = "12.0"
@@ -112,7 +116,7 @@ variable "allowed_ips" {
 }
 
 variable "action_group_id" {
-  type = string
+  type        = string
   description = "Action Group to use when alerts are raised"
 }
 

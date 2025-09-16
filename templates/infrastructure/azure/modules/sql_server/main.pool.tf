@@ -3,7 +3,7 @@ module "elastic_pool" {
   version               = "0.1.5"
   name                  = module.naming_pool.result
   location              = var.location
-  sql_server            = local.sql_server
+  sql_server            = local.sql_server_reference
   sku                   = var.elastic_pool.sku
   per_database_settings = var.elastic_pool.per_database_settings
   max_size_gb           = var.elastic_pool.max_size_gb
@@ -28,7 +28,7 @@ resource "azurerm_monitor_diagnostic_setting" "elastic_pool" {
 resource "azurerm_monitor_metric_alert" "elastic_pool" {
   for_each            = local.elastic_pool.alerts
   name                = "${module.naming_pool.result}-${each.key}"
-  resource_group_name = module.resource_group.name
+  resource_group_name = var.resource_group_name
   scopes              = [module.elastic_pool.resource_id]
   frequency           = each.value.frequency
   window_size         = each.value.window

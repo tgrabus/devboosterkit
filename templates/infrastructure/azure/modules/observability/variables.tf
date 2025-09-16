@@ -29,6 +29,10 @@ variable "short_description" {
   default     = null
 }
 
+variable "resource_group_name" {
+  type = string
+}
+
 variable "retention_in_days" {
   type    = number
   default = 90
@@ -38,11 +42,11 @@ variable "action_groups" {
   type = map(object({
     email_receivers = optional(map(string), {})
   }))
-  
+
   default = {}
 }
 
 variable "tags" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }

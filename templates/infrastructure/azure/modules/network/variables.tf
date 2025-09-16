@@ -19,6 +19,11 @@ variable "product" {
 }
 
 variable "short_description" {
+  type    = string
+  default = null
+}
+
+variable "resource_group_name" {
   type = string
 }
 
