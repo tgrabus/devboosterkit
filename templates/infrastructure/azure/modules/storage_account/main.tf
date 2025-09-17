@@ -12,6 +12,8 @@ locals {
     private_dns_zone_resource_ids   = [endpoint.private_dns_zone_resource_id]
     subnet_resource_id              = endpoint.subnet_resource_id
     subresource_name                = endpoint.subresource_name
+    resource_group_name             = endpoint.resource_group_name
+    tags                            = var.tags
   } }
 }
 

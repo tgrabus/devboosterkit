@@ -41,7 +41,7 @@ variable "os_type" {
 
 variable "sku_name" {
   type    = string
-  default = "F1"
+  default = "P0v3"
 }
 
 variable "properties" {

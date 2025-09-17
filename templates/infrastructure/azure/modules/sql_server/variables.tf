@@ -73,8 +73,9 @@ variable "diagnostic_settings" {
 
 variable "databases" {
   type = map(object({
-    collation   = optional(string, "SQL_Latin1_General_CP1_CI_AS")
-    max_size_gb = optional(number)
+    collation                   = optional(string, "SQL_Latin1_General_CP1_CI_AS")
+    max_size_gb                 = optional(number)
+    backup_storage_account_type = optional(string, "Geo")
 
     short_term_retention_policy = optional(object({
       retention_days           = optional(number, 7)
@@ -105,6 +106,7 @@ variable "private_endpoints" {
   type = map(object({
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
+    resource_group_name          = optional(string)
   }))
   default = {}
 }

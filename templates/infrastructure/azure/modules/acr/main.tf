@@ -9,6 +9,8 @@ locals {
     network_interface_name          = module.naming_nic[key].result
     private_dns_zone_resource_ids   = [endpoint.private_dns_zone_resource_id]
     subnet_resource_id              = endpoint.subnet_resource_id
+    resource_group_name             = endpoint.resource_group_name
+    tags                            = var.tags
   } }
 
   network_rule_set = {

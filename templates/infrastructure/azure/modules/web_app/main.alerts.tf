@@ -19,12 +19,6 @@ locals {
       operator          = "GreaterThan"
     },
     {
-      metric_name       = "RequestsInApplicationQueue"
-      aggregation       = "Average"
-      alert_sensitivity = "Medium"
-      operator          = "GreaterThan"
-    },
-    {
       metric_name       = "HttpResponseTime"
       aggregation       = "Average"
       alert_sensitivity = "Medium"

@@ -13,6 +13,8 @@ locals {
       private_dns_zone_resource_ids   = [endpoint.private_dns_zone_resource_id]
       subnet_resource_id              = endpoint.subnet_resource_id
       subresource_name                = "sqlServer"
+      resource_group_name             = endpoint.resource_group_name
+      tags                            = var.tags
     } }
 
     firewall_rules = {
@@ -31,7 +33,7 @@ locals {
   audit_storage = {
     containers = {
       vulnerability_assessment = {
-        name = "vulnerability_assessment"
+        name = "vulnerabilityassessment"
       }
     }
     roles = {

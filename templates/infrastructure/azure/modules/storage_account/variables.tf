@@ -95,6 +95,7 @@ variable "private_endpoints" {
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
     subresource_name             = string
+    resource_group_name          = optional(string)
   }))
   default = {}
 }

@@ -31,17 +31,18 @@ locals {
     user_assigned_resource_ids = [module.managed_identity.resource_id]
   }
 
-  enable_application_insights = var.log_analytics != null ? true : false
+  enable_application_insights = var.application_insights != null ? true : false
 
-  app_insights = var.log_analytics != null ? {
-    name                       = module.naming_app_insights.result
-    resource_group_name        = var.resource_group_name
-    workspace_resource_id      = var.log_analytics.la_workspace_id
-    retention_in_days          = var.log_analytics.retention_in_days
+  app_insights = (var.application_insights != null ? {
+    name                  = module.naming_app_insights.result
+    application_type      = "web"
+    resource_group_name   = var.application_insights.resource_group_name
+    workspace_resource_id = var.application_insights.la_workspace_id
+    retention_in_days     = var.application_insights.retention_in_days
+    #tags                       = var.tags
     internet_ingestion_enabled = true
     internet_query_enabled     = true
-    application_type           = "web"
-  } : {}
+  } : {})
 
   private_endpoints = { for key, endpoint in var.private_endpoints : key => {
     name                            = module.naming_pe[key].result
@@ -49,6 +50,8 @@ locals {
     network_interface_name          = module.naming_nic[key].result
     private_dns_zone_resource_ids   = [endpoint.private_dns_zone_resource_id]
     subnet_resource_id              = endpoint.subnet_resource_id
+    resource_group_name             = endpoint.resource_group_name
+    tags                            = var.tags
   } }
 
 }

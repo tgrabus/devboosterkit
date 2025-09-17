@@ -7,12 +7,14 @@ locals {
     private_endpoints = {
       sample_app = {
         private_dns_zone_resource_id = module.private_dns_zones.private_dns_zone_resource_ids["azure_app_service"]
-        subnet_resource_id           = module.vnet.subnets["webapps"].id
+        subnet_resource_id           = module.vnet.subnets["pe"].id
+        resource_group_name          = module.resource_groups["vnet"].name
       }
     }
 
-    connected_log_analytics = {
-      la_workspace_id = module.observability.resource_id
+    application_insights = {
+      la_workspace_id     = module.observability.resource_id
+      resource_group_name = module.resource_groups["observability"].name
     }
 
     app_settings = {
@@ -36,12 +38,21 @@ locals {
       sql = {
         private_dns_zone_resource_id = module.private_dns_zones.private_dns_zone_resource_ids["azure_sql_server"]
         subnet_resource_id           = module.vnet.subnets["database"].id
+        resource_group_name          = module.resource_groups["vnet"].name
+      }
+    }
+
+    elastic_pool = {
+      zone_redundant = false
+      sku = {
+        name = "StandardPool"
       }
     }
 
     databases = {
       sample = {
-        max_size_gb = 20
+        max_size_gb                 = 20
+        backup_storage_account_type = "Zone"
       }
     }
   }
@@ -52,6 +63,7 @@ locals {
         private_dns_zone_resource_id = module.private_dns_zones.private_dns_zone_resource_ids["azure_storage_blob"]
         subnet_resource_id           = module.vnet.subnets["pe"].id
         subresource_name             = "blob"
+        resource_group_name          = module.resource_groups["vnet"].name
       }
     }
 
@@ -68,6 +80,7 @@ locals {
       secret_storage = {
         private_dns_zone_resource_id = module.private_dns_zones.private_dns_zone_resource_ids["azure_key_vault"]
         subnet_resource_id           = module.vnet.subnets["pe"].id
+        resource_group_name          = module.resource_groups["vnet"].name
       }
     }
 
@@ -97,7 +110,7 @@ module "service_plan" {
   short_description   = "sample"
   resource_group_name = module.resource_groups[local.resource_groups.apps].name
   os_type             = "Linux"
-  sku_name            = "F1"
+  sku_name            = "P0v3"
   action_group_id     = module.observability.action_groups["default"].id
   tags                = local.tags
 }
@@ -113,6 +126,7 @@ module "sql_storage" {
   diagnostic_settings           = local.sql.diagnostic_settings
   allowed_ips                   = var.allowed_ips
   private_endpoints             = local.sql.private_endpoints
+  elastic_pool                  = local.sql.elastic_pool
   databases                     = local.sql.databases
   action_group_id               = module.observability.action_groups["default"].id
   public_network_access_enabled = var.public_network_access_enabled
@@ -167,7 +181,7 @@ module "sample_app" {
   private_endpoints             = local.sample_app.private_endpoints
   app_settings                  = local.sample_app.app_settings
   action_group_id               = module.observability.action_groups["default"].id
-  log_analytics                 = local.sample_app.connected_log_analytics
+  application_insights          = local.sample_app.application_insights
   public_network_access_enabled = var.public_network_access_enabled
   allowed_ips                   = var.allowed_ips
   tags                          = local.tags

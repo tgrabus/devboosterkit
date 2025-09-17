@@ -61,7 +61,7 @@ variable "public_network_access_enabled" {
 
 variable "always_on" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "https_only" {
@@ -99,6 +99,7 @@ variable "private_endpoints" {
   type = map(object({
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
+    resource_group_name          = optional(string)
   }))
   description = "A map of private endpoints to create"
   default     = {}
@@ -109,10 +110,11 @@ variable "allowed_ips" {
   default = {}
 }
 
-variable "log_analytics" {
+variable "application_insights" {
   type = object({
-    la_workspace_id   = string
-    retention_in_days = optional(number, 90)
+    la_workspace_id     = string
+    retention_in_days   = optional(number, 90)
+    resource_group_name = optional(string)
   })
   default = null
 }

@@ -11,8 +11,8 @@ module "databases" {
   max_size_gb                         = each.value.max_size_gb
   sku_name                            = "ElasticPool"
   transparent_data_encryption_enabled = true
-  geo_backup_enabled                  = true
+  storage_account_type                = each.value.backup_storage_account_type
   short_term_retention_policy         = each.value.short_term_retention_policy
   long_term_retention_policy          = each.value.long_term_retention_policy
-  zone_redundant                      = module.elastic_pool.resource.zone_redundant
+  zone_redundant                      = var.elastic_pool.zone_redundant
 }

@@ -54,6 +54,7 @@ variable "private_endpoints" {
   type = map(object({
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
+    resource_group_name          = optional(string)
   }))
   description = "A map of private endpoints to create"
   default     = {}
