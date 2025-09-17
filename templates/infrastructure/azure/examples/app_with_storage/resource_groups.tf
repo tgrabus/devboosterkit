@@ -2,8 +2,8 @@ locals {
   resource_groups = {
     observability     = "observability"
     vnet              = "vnet"
-    data              = "data"
-    apps              = "apps"
+    sql               = "sql"
+    app               = "app"
     private_dns_zones = "private_dns_zones"
   }
 }

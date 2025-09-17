@@ -13,8 +13,7 @@ locals {
     }
 
     application_insights = {
-      la_workspace_id     = module.observability.resource_id
-      resource_group_name = module.resource_groups["observability"].name
+      la_workspace_id = module.observability.resource_id
     }
 
     app_settings = {
@@ -108,7 +107,7 @@ module "service_plan" {
   stage               = var.stage
   product             = var.product
   short_description   = "sample"
-  resource_group_name = module.resource_groups[local.resource_groups.apps].name
+  resource_group_name = module.resource_groups[local.resource_groups.app].name
   os_type             = "Linux"
   sku_name            = "P0v3"
   action_group_id     = module.observability.action_groups["default"].id
@@ -121,7 +120,7 @@ module "sql_storage" {
   location                      = var.location
   stage                         = var.stage
   product                       = var.product
-  resource_group_name           = module.resource_groups[local.resource_groups.data].name
+  resource_group_name           = module.resource_groups[local.resource_groups.sql].name
   azuread_administrator         = local.sql.azuread_administrator
   diagnostic_settings           = local.sql.diagnostic_settings
   allowed_ips                   = var.allowed_ips
@@ -140,7 +139,7 @@ module "file_storage" {
   stage                         = var.stage
   product                       = var.product
   short_description             = "file"
-  resource_group_name           = module.resource_groups[local.resource_groups.data].name
+  resource_group_name           = module.resource_groups[local.resource_groups.app].name
   private_endpoints             = local.file_storage.private_endpoints
   allowed_ip_ranges             = var.allowed_ips
   public_network_access_enabled = var.public_network_access_enabled
@@ -156,7 +155,7 @@ module "secret_storage" {
   stage                         = var.stage
   product                       = var.product
   short_description             = "secret"
-  resource_group_name           = module.resource_groups[local.resource_groups.data].name
+  resource_group_name           = module.resource_groups[local.resource_groups.app].name
   tenant_id                     = data.azurerm_client_config.current.tenant_id
   private_endpoints             = local.secret_storage.private_endpoints
   secrets                       = local.secret_storage.secrets
@@ -174,7 +173,7 @@ module "sample_app" {
   short_description             = "sample"
   app_stack                     = local.sample_app.app_stack
   os_type                       = module.service_plan.os_type
-  resource_group_name           = module.resource_groups[local.resource_groups.apps].name
+  resource_group_name           = module.resource_groups[local.resource_groups.app].name
   service_plan_resource_id      = module.service_plan.resource_id
   virtual_network_subnet_id     = module.vnet.subnets["webapps"].id
   vnet_route_all_enabled        = true
