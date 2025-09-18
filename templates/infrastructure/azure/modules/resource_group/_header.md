@@ -28,12 +28,12 @@ module "resource_group" {
   stage             = "prod"
   location          = "East US"
   instance          = 1
-  product           = "myapp"
+  product           = "dbk"
   short_description = "core"
 
   # Tags for resource management
   tags = {
-    environment = "myapp_dev_westeurope_1"
+    environment = "dbk-dev-westeurope"
     project     = "digital-transformation"
   }
 }

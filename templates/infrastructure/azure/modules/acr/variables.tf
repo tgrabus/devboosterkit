@@ -25,17 +25,20 @@ variable "short_description" {
 }
 
 variable "resource_group_name" {
-  type = string
+  type        = string
+  description = "Resource group name"
 }
 
 variable "sku" {
-  type    = string
-  default = "Basic"
+  type        = string
+  description = "SKU tier for the container registry"
+  default     = "Basic"
 }
 
 variable "public_network_access_enabled" {
-  type    = bool
-  default = true
+  type        = bool
+  description = "Whether public network access is enabled"
+  default     = true
 }
 
 variable "roles" {
@@ -43,7 +46,8 @@ variable "roles" {
     role_definition_id_or_name = string
     principal_id               = string
   }))
-  default = {}
+  description = "Map of role assignments to create for the registry"
+  default     = {}
 }
 
 variable "private_endpoints" {
@@ -57,17 +61,13 @@ variable "private_endpoints" {
 }
 
 variable "allowed_ip_ranges" {
-  description = "List of allowed IPs when firewall is enabled"
-  type        = list(string)
-  default     = []
-}
-
-variable "create_default_image" {
-  type    = bool
-  default = false
+  description = "Map of allowed IPs when firewall is enabled"
+  type        = map(string)
+  default     = {}
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  type        = map(string)
+  description = "A mapping of tags to assign to the resource"
+  default     = {}
 }

@@ -19,12 +19,14 @@ variable "product" {
 }
 
 variable "short_description" {
-  type    = string
-  default = null
+  type        = string
+  description = "Optional short description of the resource"
+  default     = null
 }
 
 variable "resource_group_name" {
-  type = string
+  type        = string
+  description = "Resource group name"
 }
 
 variable "address_space" {
@@ -48,6 +50,7 @@ variable "subnets" {
       service = string
     })), [])
   }))
+  description = "Map of subnets to create and their settings"
 }
 
 variable "tags" {

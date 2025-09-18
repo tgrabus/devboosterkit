@@ -29,11 +29,11 @@ module "managed_identity" {
   stage               = "dev"
   location            = "West Europe"
   instance            = 1
-  product             = "finzeo"
+  product             = "dbk"
   short_description   = "api-backend"
 
   # Resource group
-  resource_group_name = "rg-finzeo-dev-westeurope-001"
+  resource_group_name = "rg-dbk-dev-westeurope-1"
 
   # Optional role assignments
   roles = {
@@ -49,10 +49,8 @@ module "managed_identity" {
 
   # Tags
   tags = {
-    Environment = "development"
-    Project     = "finzeo"
-    Owner       = "platform-team"
-    Purpose     = "api-backend-identity"
+    environment = "dbk-dev-westeurope"
+    project     = "digital-transformation"
   }
 }
 

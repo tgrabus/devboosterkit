@@ -20,22 +20,26 @@ variable "product" {
 }
 
 variable "short_description" {
-  type    = string
-  default = null
+  type        = string
+  description = "Optional short description of the resource"
+  default     = null
 }
 
 variable "resource_group_name" {
-  type = string
+  type        = string
+  description = "Resource group name"
 }
 
 variable "server_version" {
-  type    = string
-  default = "12.0"
+  type        = string
+  description = "SQL Server version"
+  default     = "12.0"
 }
 
 variable "public_network_access_enabled" {
-  type    = bool
-  default = false
+  type        = bool
+  description = "Whether public network access is enabled"
+  default     = false
 }
 
 variable "azuread_administrator" {
@@ -44,6 +48,7 @@ variable "azuread_administrator" {
     login_username              = string
     object_id                   = string
   })
+  description = "Azure AD administrator settings for the SQL server"
 }
 
 variable "elastic_pool" {
@@ -61,7 +66,8 @@ variable "elastic_pool" {
       max_capacity = optional(number, 50)
     }), {})
   })
-  default = {}
+  description = "Elastic pool configuration for the SQL server"
+  default     = {}
 }
 
 variable "diagnostic_settings" {
@@ -69,6 +75,7 @@ variable "diagnostic_settings" {
     workspace_resource_id = string
     enabled               = optional(bool, true)
   })
+  description = "Diagnostic settings for sending logs to Log Analytics"
 }
 
 variable "databases" {
@@ -89,7 +96,8 @@ variable "databases" {
       week_of_year      = optional(number, 1)
     }), {})
   }))
-  default = {}
+  description = "Map of databases to create with retention policies and settings"
+  default     = {}
 }
 
 variable "vulnerability_assessment" {

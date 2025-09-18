@@ -4,7 +4,8 @@ output "vnet_id" {
 }
 
 output "vnet_name" {
-  value = module.vnet.name
+  value       = module.vnet.name
+  description = "The name of the Virtual Network"
 }
 
 output "subnets" {

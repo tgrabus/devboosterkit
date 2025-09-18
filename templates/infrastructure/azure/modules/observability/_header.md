@@ -29,10 +29,13 @@ module "observability" {
   instance          = 1
   location          = "West Europe"
   stage             = "dev"
-  product           = "myapp"
+  product           = "dbk"
   short_description = "operational"
-  resource_group_name = "rg-myapp-dev-eastus-01"
+  
+  # Resource group
+  resource_group_name = "rg-dbk-dev-westeurope-01"
 
+  # Log Analytics workspace configuration
   retention_in_days  = 90
 
   # Action groups configuration with email receivers
@@ -53,7 +56,7 @@ module "observability" {
 
   # Tags
   tags = {
-    environment = "myapp_dev_westeurope_1"
+    environment = "dbk-dev-westeurope"
     project     = "digital-transformation"
   }
 }

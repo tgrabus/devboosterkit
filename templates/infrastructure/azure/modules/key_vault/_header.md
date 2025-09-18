@@ -32,11 +32,11 @@ module "secret_storage" {
   instance          = 1
   location          = "West Europe"
   stage             = "dev"
-  product           = "myapp"
+  product           = "dbk"
   short_description = "secrets"
 
   # Resource group
-  resource_group_name = "rg-myapp-dev-westeurope-1-app"
+  resource_group_name = "rg-dbk-dev-westeurope-1"
 
   # Azure AD configuration
   tenant_id = "12345678-1234-1234-1234-123456789012"
@@ -111,7 +111,7 @@ module "secret_storage" {
 
   # Resource tags
   tags = {
-    environment = "myapp_dev_westeurope_1"
+    environment = "dbk-dev-westeurope"
     project     = "digital-transformation"
   }
 }
