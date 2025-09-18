@@ -41,7 +41,8 @@ resource "azurerm_mssql_server_vulnerability_assessment" "vulnerability_assessme
   storage_container_path          = "${module.audit_storage.primary_blob_endpoint}${local.audit_storage.containers.vulnerability_assessment.name}/"
 
   recurring_scans {
-    enabled = var.vulnerability_assessment.enabled
-    emails  = var.vulnerability_assessment.email_addresses
+    enabled                   = var.vulnerability_assessment.enabled
+    emails                    = var.vulnerability_assessment.email_addresses
+    email_subscription_admins = true
   }
 }
