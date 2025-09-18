@@ -50,11 +50,26 @@ variable "subnets" {
       service = string
     })), [])
   }))
-  description = "Map of subnets to create and their settings"
+  description = <<DESCRIPTION
+Map of subnets to create and their settings.
+
+Map key is an arbitrary identifier. Each subnet object supports:
+
+- `cidr_range_size` - The size (mask bits) used to derive the subnet CIDR from the VNet address space.
+- `idx` - Index used to generate the subnet address prefix within the VNet address space.
+- `nsg_rules` - Optional list of NSG rules to attach to this subnet. Each rule supports:
+  - `name` - Rule name.
+  - `protocol` - Network protocol (e.g., Tcp, Udp, or "*").
+  - `source` - Source address prefix or tag (e.g., AzureLoadBalancer, Internet, 10.0.0.0/24).
+  - `destination_port_ranges` - List of destination port ranges (e.g., ["80", "443"]).
+- `delegations` - Optional list of service delegations for this subnet. Each delegation supports:
+  - `name` - Delegation name.
+  - `service` - Service to delegate to (e.g., Microsoft.Web/serverFarms).
+DESCRIPTION
 }
 
 variable "tags" {
   type        = map(string)
-  description = "Tags to be applied to the resource"
+  description = "A mapping of tags to assign to the resource"
   default     = {}
 }

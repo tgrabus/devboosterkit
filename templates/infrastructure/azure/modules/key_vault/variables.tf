@@ -20,7 +20,7 @@ variable "product" {
 
 variable "short_description" {
   type        = string
-  description = "Optional Short description of the resource"
+  description = "Optional short description of the resource"
   default     = null
 }
 
@@ -55,18 +55,26 @@ variable "private_endpoints" {
     subnet_resource_id           = string
     resource_group_name          = optional(string)
   }))
-  description = "A map of private endpoints to create"
   default     = {}
+  description = <<DESCRIPTION
+A map of Private Endpoints to create for the Key Vault.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net).
+- `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
+- `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
+DESCRIPTION
 }
 
 variable "public_network_access_enabled" {
-  description = "Enable firewall and restrict access to trusted networks"
+  description = "Whether public network access is enabled"
   type        = bool
   default     = true
 }
 
 variable "allowed_ip_ranges" {
-  description = "List of allowed IPs when firewall is enabled"
+  description = "Map of allowed IPs when firewall is enabled"
   type        = map(string)
   default     = {}
 }
@@ -82,7 +90,15 @@ variable "roles" {
     role_definition_id_or_name = string
     principal_id               = string
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of role assignments to create for this Key Vault.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "Key Vault Secrets Officer") or a role definition ID (GUID).
+- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
+DESCRIPTION
 }
 
 variable "tags" {
@@ -99,5 +115,16 @@ variable "secrets" {
     expiration_date      = optional(string)
     ignore_value_changes = optional(bool, false)
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of Key Vault secrets to create.
+
+Map key is a logical identifier. Each object supports:
+
+- `name` - Name of the secret as it will appear in Key Vault.
+- `value` - Secret value (ensure you handle sensitive values securely).
+- `content_type` - Optional. Content type metadata for the secret. Defaults to "string".
+- `expiration_date` - Optional. Expiration timestamp in ISO 8601/RFC3339 format, e.g. 2030-12-31T00:00:00Z.
+- `ignore_value_changes` - Optional. Defaults to false. If true, changes to the secret value will be ignored by Terraform to avoid unnecessary updates.
+DESCRIPTION
 }

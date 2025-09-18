@@ -41,7 +41,7 @@ module "vnet_naming" {
   location            = "West Europe"
   stage               = "dev"
   product             = "dbk"
-  short_description = "sample"
+  short_description   = "sample"
 
   # Resource type
   resource_type       = "azurerm_virtual_network"

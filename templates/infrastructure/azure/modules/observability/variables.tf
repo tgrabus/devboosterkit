@@ -20,7 +20,7 @@ variable "product" {
 
 variable "short_description" {
   type        = string
-  description = "Optional Short description of the resource"
+  description = "Optional short description of the resource"
   default     = null
 }
 
@@ -40,8 +40,14 @@ variable "action_groups" {
     email_receivers = optional(map(string), {})
   }))
 
-  default = {}
-  description = "Map of action groups to create"
+  default     = {}
+  description = <<DESCRIPTION
+Map of Action Groups to create.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `email_receivers` - Optional map of email receivers to configure. Keys are receiver names, values are email addresses.
+DESCRIPTION
 }
 
 variable "tags" {

@@ -34,11 +34,11 @@ module "secret_storage" {
   instance          = 1
   location          = "West Europe"
   stage             = "dev"
-  product           = "myapp"
+  product           = "dbk"
   short_description = "secrets"
 
   # Resource group
-  resource_group_name = "rg-myapp-dev-westeurope-1-app"
+  resource_group_name = "rg-dbk-dev-westeurope-1"
 
   # Azure AD configuration
   tenant_id = "12345678-1234-1234-1234-123456789012"
@@ -113,7 +113,7 @@ module "secret_storage" {
 
   # Resource tags
   tags = {
-    environment = "myapp_dev_westeurope_1"
+    environment = "dbk-dev-westeurope"
     project     = "digital-transformation"
   }
 }
@@ -176,7 +176,7 @@ The following input variables are optional (have default values):
 
 ### <a name="input_allowed_ip_ranges"></a> [allowed\_ip\_ranges](#input\_allowed\_ip\_ranges)
 
-Description: List of allowed IPs when firewall is enabled
+Description: Map of allowed IPs when firewall is enabled
 
 Type: `map(string)`
 
@@ -184,7 +184,13 @@ Default: `{}`
 
 ### <a name="input_private_endpoints"></a> [private\_endpoints](#input\_private\_endpoints)
 
-Description: A map of private endpoints to create
+Description: A map of Private Endpoints to create for the Key Vault.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net).
+- `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
+- `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
 
 Type:
 
@@ -200,7 +206,7 @@ Default: `{}`
 
 ### <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled)
 
-Description: Enable firewall and restrict access to trusted networks
+Description: Whether public network access is enabled
 
 Type: `bool`
 
@@ -216,7 +222,12 @@ Default: `false`
 
 ### <a name="input_roles"></a> [roles](#input\_roles)
 
-Description: n/a
+Description: Map of role assignments to create for this Key Vault.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "Key Vault Secrets Officer") or a role definition ID (GUID).
+- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
 
 Type:
 
@@ -231,7 +242,15 @@ Default: `{}`
 
 ### <a name="input_secrets"></a> [secrets](#input\_secrets)
 
-Description: n/a
+Description: Map of Key Vault secrets to create.
+
+Map key is a logical identifier. Each object supports:
+
+- `name` - Name of the secret as it will appear in Key Vault.
+- `value` - Secret value (ensure you handle sensitive values securely).
+- `content_type` - Optional. Content type metadata for the secret. Defaults to "string".
+- `expiration_date` - Optional. Expiration timestamp in ISO 8601/RFC3339 format, e.g. 2030-12-31T00:00:00Z.
+- `ignore_value_changes` - Optional. Defaults to false. If true, changes to the secret value will be ignored by Terraform to avoid unnecessary updates.
 
 Type:
 
@@ -249,7 +268,7 @@ Default: `{}`
 
 ### <a name="input_short_description"></a> [short\_description](#input\_short\_description)
 
-Description: Optional Short description of the resource
+Description: Optional short description of the resource
 
 Type: `string`
 

@@ -31,10 +31,12 @@ module "observability" {
   instance          = 1
   location          = "West Europe"
   stage             = "dev"
-  product           = "myapp"
+  product           = "dbk"
   short_description = "operational"
-  resource_group_name = "rg-myapp-dev-eastus-01"
+  # Resource group
+  resource_group_name = "rg-dbk-dev-westeurope-01"
 
+  # Log Analytics workspace configuration
   retention_in_days  = 90
 
   # Action groups configuration with email receivers
@@ -55,7 +57,7 @@ module "observability" {
 
   # Tags
   tags = {
-    environment = "myapp_dev_westeurope_1"
+    environment = "dbk-dev-westeurope"
     project     = "digital-transformation"
   }
 }
@@ -113,7 +115,11 @@ The following input variables are optional (have default values):
 
 ### <a name="input_action_groups"></a> [action\_groups](#input\_action\_groups)
 
-Description: Map of action groups to create
+Description: Map of Action Groups to create.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `email_receivers` - Optional map of email receivers to configure. Keys are receiver names, values are email addresses.
 
 Type:
 
@@ -135,7 +141,7 @@ Default: `90`
 
 ### <a name="input_short_description"></a> [short\_description](#input\_short\_description)
 
-Description: Optional Short description of the resource
+Description: Optional short description of the resource
 
 Type: `string`
 

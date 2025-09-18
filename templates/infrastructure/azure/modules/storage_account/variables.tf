@@ -1,32 +1,32 @@
 
 variable "stage" {
-  description = "Stage of the environment"
   type        = string
+  description = "Stage the resource is provisioned"
 }
 
 variable "product" {
-  description = "Name of the product"
   type        = string
+  description = "The product name this resource belongs to"
 }
 
 variable "instance" {
-  description = "Number of the instance"
   type        = number
+  description = "Environment instance for region"
 }
 
 variable "short_description" {
-  description = "Short description of the resource"
+  description = "Optional short description of the resource"
   type        = string
   default     = null
 }
 
 variable "location" {
-  description = "Location of the resource group in which to create the storage account"
+  description = "Azure region"
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "Name of the resource group in which to create the storage account"
+  description = "Resource group name"
   type        = string
 }
 
@@ -55,49 +55,69 @@ variable "enable_firewall" {
 }
 
 variable "public_network_access_enabled" {
-  type    = bool
-  default = false
+  type        = bool
+  description = "Whether public network access is enabled"
+  default     = false
 }
 
 variable "allow_nested_items_to_be_public" {
-  type    = bool
-  default = false
+  type        = bool
+  description = "Allow nested items (e.g., blobs) to be public"
+  default     = false
 }
 
 variable "sftp_enabled" {
-  type    = bool
-  default = false
+  type        = bool
+  description = "Enable SFTP support on the Storage Account"
+  default     = false
 }
 
 variable "allowed_ip_ranges" {
-  description = "List of allowed IPs when firewall is enabled"
+  description = "Map of allowed IPs when firewall is enabled"
   type        = map(string)
   default     = {}
 }
 
 variable "network_bypass" {
-  type    = set(string)
-  default = ["AzureServices"]
+  type        = set(string)
+  description = "Services that can bypass the network rules (e.g., AzureServices)"
+  default     = ["AzureServices"]
 }
 
 variable "containers" {
-  description = "Map of storage containers to create within the storage account"
   type = map(object({
     name          = string
     public_access = optional(string, "None")
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of storage containers to create within the Storage Account.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `name` - Name of the container to create.
+- `public_access` - Optional. Public access level for the container. One of: "None", "Blob", or "Container". Defaults to "None".
+DESCRIPTION
 }
 
 variable "private_endpoints" {
-  description = "Map of private endpoints configuration"
   type = map(object({
     private_dns_zone_resource_id = string
     subnet_resource_id           = string
     subresource_name             = string
     resource_group_name          = optional(string)
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+A map of Private Endpoints to create for the Storage Account.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. .../privateDnsZones/privatelink.blob.core.windows.net). Use a zone appropriate for the subresource.
+- `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
+- `subresource_name` - The subresource to connect (e.g., "blob", "file", "queue", "table", or "dfs" for ADLS Gen2).
+- `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
+DESCRIPTION
 }
 
 variable "roles" {
@@ -105,14 +125,29 @@ variable "roles" {
     role_definition_id_or_name = string
     principal_id               = string
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of role assignments to create for the Storage Account.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "Storage Blob Data Contributor") or a role definition ID (GUID).
+- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
+DESCRIPTION
 }
 
 variable "queues" {
   type = map(object({
     name = string
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of Storage Queues to create.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `name` - The name of the queue to create.
+DESCRIPTION
 }
 
 variable "sftp_admins" {
@@ -120,26 +155,37 @@ variable "sftp_admins" {
     name       = string
     containers = list(string)
   }))
-  default = {}
+  default     = {}
+  description = <<DESCRIPTION
+Map of SFTP local users to create and grant container permissions.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `name` - The username for the local user.
+- `containers` - List of container names the user should have access to.
+DESCRIPTION
 }
 
 variable "allowed_copy_scope" {
-  type    = string
-  default = null
+  type        = string
+  description = "Restrict copy operations to a specific scope (e.g., resource group or subscription)"
+  default     = null
 }
 
 variable "default_to_oauth_authentication" {
-  type    = bool
-  default = true
+  type        = bool
+  description = "Default to OAuth (Azure AD) authentication when connecting to Storage resources"
+  default     = true
 }
 
 variable "shared_access_key_enabled" {
-  type    = bool
-  default = false
+  type        = bool
+  description = "Enable Shared Key (Access Key) authentication for the Storage Account"
+  default     = false
 }
 
 variable "tags" {
-  description = "Tags to apply to the storage account"
   type        = map(string)
+  description = "A mapping of tags to assign to the resource"
   default     = {}
 }

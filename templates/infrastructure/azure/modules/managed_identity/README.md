@@ -31,11 +31,11 @@ module "managed_identity" {
   stage               = "dev"
   location            = "West Europe"
   instance            = 1
-  product             = "finzeo"
+  product             = "dbk"
   short_description   = "api-backend"
 
   # Resource group
-  resource_group_name = "rg-finzeo-dev-westeurope-001"
+  resource_group_name = "rg-dbk-dev-westeurope-1"
 
   # Optional role assignments
   roles = {
@@ -51,10 +51,8 @@ module "managed_identity" {
 
   # Tags
   tags = {
-    Environment = "development"
-    Project     = "finzeo"
-    Owner       = "platform-team"
-    Purpose     = "api-backend-identity"
+    environment = "dbk-dev-westeurope"
+    project     = "digital-transformation"
   }
 }
 
@@ -113,7 +111,12 @@ The following input variables are optional (have default values):
 
 ### <a name="input_roles"></a> [roles](#input\_roles)
 
-Description: List of roles to assign to the identity
+Description: Map of role assignments to create for this Managed Identity.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `scope` - The Azure Resource ID of the scope where the role assignment applies (e.g., a subscription, resource group, or resource).
+- `role_name` - The name of the built-in or custom role to assign (e.g., "Reader").
 
 Type:
 
@@ -128,7 +131,7 @@ Default: `{}`
 
 ### <a name="input_short_description"></a> [short\_description](#input\_short\_description)
 
-Description: Optional Short description of the resource
+Description: Optional short description of the resource
 
 Type: `string`
 

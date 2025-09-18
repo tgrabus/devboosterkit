@@ -20,7 +20,7 @@ variable "product" {
 
 variable "short_description" {
   type        = string
-  description = "Optional Short description of the resource"
+  description = "Optional short description of the resource"
   default     = null
 }
 
@@ -34,6 +34,13 @@ variable "roles" {
     scope     = string
     role_name = string
   }))
-  default = {}
-  description = "List of roles to assign to the identity"
+  default     = {}
+  description = <<DESCRIPTION
+Map of role assignments to create for this Managed Identity.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `scope` - The Azure Resource ID of the scope where the role assignment applies (e.g., a subscription, resource group, or resource).
+- `role_name` - The name of the built-in or custom role to assign (e.g., "Reader").
+DESCRIPTION
 }

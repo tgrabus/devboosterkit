@@ -20,7 +20,7 @@ variable "product" {
 
 variable "short_description" {
   type        = string
-  description = "Optional Short description of the resource"
+  description = "Optional short description of the resource"
   default     = null
 }
 
@@ -46,8 +46,15 @@ variable "roles" {
     role_definition_id_or_name = string
     principal_id               = string
   }))
-  description = "Map of role assignments to create for the registry"
   default     = {}
+  description = <<DESCRIPTION
+Map of role assignments to create for the Container Registry.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "AcrPull") or a role definition ID (GUID).
+- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
+DESCRIPTION
 }
 
 variable "private_endpoints" {
@@ -57,7 +64,15 @@ variable "private_endpoints" {
     resource_group_name          = optional(string)
   }))
   default     = {}
-  description = "A map of private endpoints to create"
+  description = <<DESCRIPTION
+A map of Private Endpoints to create for the Container Registry.
+
+Map key is an arbitrary identifier. Each object supports:
+
+- `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io).
+- `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
+- `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
+DESCRIPTION
 }
 
 variable "allowed_ip_ranges" {
