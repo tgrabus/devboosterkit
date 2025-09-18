@@ -33,11 +33,15 @@ This example shows the most basic usage of the module for generating standardize
 ```terraform
 module "vnet_naming" {
   source              = "../naming"
-  resource_type       = "azurerm_virtual_network"
+
+  # Basic naming and location variables
   instance            = 1
   location            = "West Europe"
   stage               = "dev"
   product             = "dbk"
   short_description = "sample"
+
+  # Resource type
+  resource_type       = "azurerm_virtual_network"
 }
 ```

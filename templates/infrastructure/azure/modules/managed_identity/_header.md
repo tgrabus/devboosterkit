@@ -23,18 +23,37 @@ To use this module in your Terraform configuration, you'll need to provide value
 This example shows the most basic usage of the module for creating a user-assigned managed identity.
 ```terraform
 module "managed_identity" {
-  source              = "../managed_identity"
-  instance            = 1
-  location            = "West Europe"
+  source = "./modules/managed_identity"
+
+  # Basic naming and location variables
   stage               = "dev"
-  product             = "dbk"
-  short_description   = "sample"
-  resource_group_name = "sample-rg"
+  location            = "West Europe"
+  instance            = 1
+  product             = "finzeo"
+  short_description   = "api-backend"
+
+  # Resource group
+  resource_group_name = "rg-finzeo-dev-westeurope-001"
+
+  # Optional role assignments
   roles = {
-    backend_storage = {
+    storage_access = {
       role_name = "Storage Blob Data Contributor"
-      scope     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount"
+      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-storage-dev/providers/Microsoft.Storage/storageAccounts/stfinzeodev001"
+    }
+    keyvault_access = {
+      role_name = "Key Vault Secrets User"
+      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-keyvault-dev/providers/Microsoft.KeyVault/vaults/kv-finzeo-dev-001"
     }
   }
+
+  # Tags
+  tags = {
+    Environment = "development"
+    Project     = "finzeo"
+    Owner       = "platform-team"
+    Purpose     = "api-backend-identity"
+  }
 }
+
 ```

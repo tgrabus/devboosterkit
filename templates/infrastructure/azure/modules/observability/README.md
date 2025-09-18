@@ -53,7 +53,7 @@ module "observability" {
     }
   }
 
-  # Tags for resource management
+  # Tags
   tags = {
     environment = "myapp_dev_westeurope_1"
     project     = "digital-transformation"
@@ -113,7 +113,7 @@ The following input variables are optional (have default values):
 
 ### <a name="input_action_groups"></a> [action\_groups](#input\_action\_groups)
 
-Description: List of action groups to create
+Description: Map of action groups to create
 
 Type:
 

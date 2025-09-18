@@ -51,7 +51,7 @@ module "observability" {
     }
   }
 
-  # Tags for resource management
+  # Tags
   tags = {
     environment = "myapp_dev_westeurope_1"
     project     = "digital-transformation"
