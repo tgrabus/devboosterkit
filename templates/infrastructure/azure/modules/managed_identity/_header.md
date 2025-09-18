@@ -39,11 +39,11 @@ module "managed_identity" {
   roles = {
     storage_access = {
       role_name = "Storage Blob Data Contributor"
-      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-storage-dev/providers/Microsoft.Storage/storageAccounts/stfinzeodev001"
+      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-storage-dev/providers/Microsoft.Storage/storageAccounts/stdbkdev001"
     }
     keyvault_access = {
       role_name = "Key Vault Secrets User"
-      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-keyvault-dev/providers/Microsoft.KeyVault/vaults/kv-finzeo-dev-001"
+      scope     = "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg-keyvault-dev/providers/Microsoft.KeyVault/vaults/kv-dbk-dev-001"
     }
   }
 
