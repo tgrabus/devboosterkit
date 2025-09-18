@@ -1,5 +1,6 @@
 output "resource_id" {
   value = module.this.resource_id
+  description = "Resource id"
 }
 
 output "action_groups" {
@@ -8,4 +9,5 @@ output "action_groups" {
       id = group.id
     }
   }
+  description = "List of created action groups"
 }

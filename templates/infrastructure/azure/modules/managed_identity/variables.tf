@@ -16,7 +16,6 @@ variable "instance" {
 variable "product" {
   type        = string
   description = "The product name this resource belongs to"
-  default     = "finzeo"
 }
 
 variable "short_description" {
@@ -36,4 +35,5 @@ variable "roles" {
     role_name = string
   }))
   default = {}
+  description = "List of roles to assign to the identity"
 }

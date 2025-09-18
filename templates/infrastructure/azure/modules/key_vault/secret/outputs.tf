@@ -5,8 +5,10 @@ locals {
 
 output "resource_id" {
   value = local.resource_id
+  description = "Resource id"
 }
 
 output "reference" {
   value = "@Microsoft.KeyVault(SecretUri=${local.versionless_id})"
+  description = "Secret reference - used as reference in app settings of App Service"
 }

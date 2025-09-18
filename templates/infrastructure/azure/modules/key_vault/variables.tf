@@ -16,7 +16,6 @@ variable "instance" {
 variable "product" {
   type        = string
   description = "The product name this resource belongs to"
-  default     = "finzeo"
 }
 
 variable "short_description" {

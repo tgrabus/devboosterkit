@@ -14,7 +14,7 @@ locals {
     var.product,
     module.azure_location.short_name,
     local.stage,
-    var.short_description,
-    local.instance
+    local.instance,
+    var.short_description
   ])
 }

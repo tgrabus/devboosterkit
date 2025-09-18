@@ -26,6 +26,6 @@ variable "short_description" {
 
 variable "tags" {
   type        = map(string)
-  description = "Tags to apply"
+  description = "Map of tags to apply"
   default     = {}
 }
