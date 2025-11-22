@@ -4,7 +4,6 @@ locals {
     vnet              = "vnet"
     sql               = "sql"
     app               = "app"
-    private_dns_zones = "private_dns_zones"
   }
 }
 

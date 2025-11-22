@@ -3,24 +3,8 @@ variable "subscription_id_dev" {
   type        = string
   validation {
     condition     = can(regex("^[0-9a-fA-F-]{36}$", var.subscription_id_dev))
-    error_message = "The bootstrap subscription ID must be a valid GUID"
+    error_message = "The dev subscription ID must be a valid GUID"
   }
-}
-
-variable "bootstrap_location" {
-  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)"
-  type        = string
-}
-
-variable "azure_devops_personal_access_token" {
-  description = "The personal access token for Azure DevOps"
-  type        = string
-  sensitive   = true
-}
-
-variable "azure_devops_organization_name" {
-  description = "The name of your Azure DevOps organization. This is the section of the url after 'dev.azure.com' or before '.visualstudio.com'. E.g. enter 'my-org' for 'https://dev.azure.com/my-org'"
-  type        = string
 }
 
 variable "bootstrap_subscription_id" {
@@ -33,6 +17,16 @@ variable "bootstrap_subscription_id" {
   }
 }
 
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)"
+  type        = string
+}
+
+variable "azure_devops_organization_name" {
+  description = "The name of your Azure DevOps organization."
+  type        = string
+}
+
 variable "azure_devops_create_project" {
   description = "Create the Azure DevOps project if it does not exist"
   type        = bool
@@ -40,12 +34,18 @@ variable "azure_devops_create_project" {
 }
 
 variable "azure_devops_project_name" {
-  description = "The name of the Azure DevOps project to use or create for the deployment"
+  description = "The name of the Azure DevOps project"
   type        = string
 }
 
+variable "azure_devops_personal_access_token" {
+  description = "The personal access token for Azure DevOps"
+  type        = string
+  sensitive   = true
+}
+
 variable "azure_devops_agents_personal_access_token" {
-  description = "Personal access token for Azure DevOps self-hosted agents (the token requires the 'Agent Pools - Read & Manage' scope and should have the maximum expiry). Only required if 'use_self_hosted_runners' is 'true'"
+  description = "Personal access token for Azure DevOps self-hosted agents"
   type        = string
   sensitive   = true
   default     = ""
@@ -63,18 +63,6 @@ variable "agent_container_image_repository" {
   default     = "https://github.com/Azure/avm-container-images-cicd-agents-and-runners"
 }
 
-variable "agent_container_image_tag" {
-  description = "The container image tag to use for Azure DevOps Agents"
-  type        = string
-  default     = "39b9059"
-}
-
-variable "agent_container_image_name" {
-  description = "The container image tag to use for Azure DevOps Agents"
-  type        = string
-  default     = "azure-devops-agent"
-}
-
 variable "agent_container_image_folder" {
   description = "The folder containing the Dockerfile for the container image"
   type        = string
@@ -85,6 +73,18 @@ variable "agent_container_image_dockerfile" {
   description = "The Dockerfile to use for the container image"
   type        = string
   default     = "dockerfile"
+}
+
+variable "agent_container_image_tag" {
+  description = "The container image tag to use for Azure DevOps Agents"
+  type        = string
+  default     = "39b9059"
+}
+
+variable "agent_container_image_name" {
+  description = "The container image name to use for Azure DevOps Agents"
+  type        = string
+  default     = "azure-devops-agent"
 }
 
 variable "agent_container_cpu" {

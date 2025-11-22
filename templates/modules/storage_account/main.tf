@@ -40,6 +40,5 @@ module "this" {
   containers                      = var.containers
   queues                          = var.queues
   private_endpoints               = local.private_endpoints
-  role_assignments                = var.role_assignments
   tags                            = var.tags
 }

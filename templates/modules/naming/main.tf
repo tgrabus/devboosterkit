@@ -1,6 +1,6 @@
 module "azure_location" {
   source   = "azurerm/locations/azure"
-  version  = "0.2.6"
+  version  = "0.2.8"
   location = var.location
 }
 

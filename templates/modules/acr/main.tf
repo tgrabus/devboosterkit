@@ -15,3 +15,14 @@ module "this" {
   tags                          = var.tags
   managed_identities            = local.managed_identities
 }
+
+resource "azapi_update_resource" "network_rule_bypass_allowed_for_tasks" {
+  count       = var.network_rule_bypass_allowed_for_tasks ? 1 : 0
+  type        = "Microsoft.ContainerRegistry/registries@2025-05-01-preview"
+  resource_id = module.this.resource_id
+  body = {
+    properties = {
+      networkRuleBypassAllowedForTasks = true
+    }
+  }
+}

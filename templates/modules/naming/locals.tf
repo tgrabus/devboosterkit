@@ -12,8 +12,8 @@ locals {
 
   name_suffixes = compact([
     var.product,
-    module.azure_location.short_name,
     local.stage,
+    module.azure_location.short_name,
     local.instance,
     var.short_description
   ])

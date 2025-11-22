@@ -1,18 +1,7 @@
 locals {
   state_storage = {
-    containers = { for key, value in module.msi : key => {
+    containers = { for key, value in var.user_assigned_managed_identities : key => {
       name = key
-      role_assignments = {
-        (key) = {
-          role_definition_id_or_name = "Storage Blob Data Owner"
-          principal_id               = value.principal_id
-        }
-      }
-    } }
-
-    role_assignments = { for key, value in module.msi : key => {
-      role_definition_id_or_name = "Reader"
-      principal_id               = value.principal_id
     } }
 
     private_endpoints = {
@@ -37,7 +26,6 @@ module "state_storage" {
   shared_access_key_enabled       = false
   public_network_access_enabled   = false
   containers                      = local.state_storage.containers
-  role_assignments                = local.state_storage.role_assignments
   replication_type                = "ZRS"
   private_endpoints               = local.state_storage.private_endpoints
   tags                            = local.tags

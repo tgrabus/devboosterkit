@@ -44,9 +44,6 @@ variable "private_endpoints" {
   default     = {}
   description = <<DESCRIPTION
 A map of Private Endpoints to create for the Container Registry.
-
-Map key is an arbitrary identifier. Each object supports:
-
 - `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io).
 - `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
 - `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
@@ -65,16 +62,8 @@ variable "tags" {
   default     = {}
 }
 
-variable "tasks" {
-  type = map(object({
-    name                             = string
-    dockerfile_repository_folder_url = string
-    dockerfile_name                  = string
-    access_token                     = string
-    image_name                       = string
-    image_tag                        = string
-    run_now                          = optional(bool, true)
-  }))
-  default     = {}
-  description = "A mapping of tasks"
+variable "network_rule_bypass_allowed_for_tasks" {
+  type = bool
+  default = false
+  description = "Whether to add network for tasks"
 }

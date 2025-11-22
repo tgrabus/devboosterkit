@@ -4,7 +4,6 @@ locals {
     agents   = "agents"
     identity = "identity"
     vnet     = "cicd"
-    pdz      = "pdz"
     acr      = "acr"
   }
 }

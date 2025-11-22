@@ -88,10 +88,6 @@ variable "containers" {
   type = map(object({
     name          = string
     public_access = optional(string, "None")
-    role_assignments = optional(map(object({
-      role_definition_id_or_name = string
-      principal_id               = string
-    })))
   }))
   default     = {}
   description = <<DESCRIPTION
@@ -115,19 +111,6 @@ A map of Private Endpoints to create for the Storage Account.
 - `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
 - `subresource_name` - The subresource to connect (e.g., "blob", "file", "queue", "table", or "dfs" for ADLS Gen2).
 - `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
-DESCRIPTION
-}
-
-variable "role_assignments" {
-  type = map(object({
-    role_definition_id_or_name = string
-    principal_id               = string
-  }))
-  default     = {}
-  description = <<DESCRIPTION
-Map of role assignments to create for the Storage Account.
-- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "Storage Blob Data Contributor") or a role definition ID (GUID).
-- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
 DESCRIPTION
 }
 

@@ -54,7 +54,7 @@ locals {
 }
 
 module "vnet" {
-  source              = "../../modules/network"
+  source              = "../../../modules/network"
   instance            = var.instance
   location            = var.location
   stage               = var.stage

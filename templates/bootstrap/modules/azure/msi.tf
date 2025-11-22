@@ -1,5 +1,16 @@
 locals {
   audience = "api://AzureADTokenExchange"
+  
+  msi = {
+    additional_role_assignments = {
+      state_storage = {
+        scope     = module.state_storage.resource_id
+        role_name = "Reader"
+      }
+    }
+    
+    
+  }
 }
 
 module "msi" {
@@ -11,7 +22,19 @@ module "msi" {
   product             = var.product
   short_description   = each.key
   resource_group_name = module.resource_groups[local.resource_groups.identity].name
-  role_assignments    = each.value.role_assignments
+  role_assignments    = merge(
+    each.value.role_assignments,
+    {
+      state_storage = {
+        scope     = module.state_storage.resource_id
+        role_name = "Reader"
+      },
+      state_storage_container = {
+        scope     = module.state_storage.storage_containers[each.key].id
+        role_name = "Storage Blob Data Owner"
+      }
+    }
+  )
   tags                = local.tags
 }
 
