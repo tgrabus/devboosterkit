@@ -63,7 +63,7 @@ variable "tags" {
 }
 
 variable "network_rule_bypass_allowed_for_tasks" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Whether to add network for tasks"
 }

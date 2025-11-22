@@ -32,6 +32,6 @@ module "this" {
     }
   }
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [module.managed_identity]
 }

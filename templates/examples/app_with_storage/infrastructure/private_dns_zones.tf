@@ -1,8 +1,8 @@
 locals {
   pdz = {
-    azure_app_service = "privatelink.azurewebsites.net"
-    azure_sql_server = "privatelink.database.windows.net"
-    azure_key_vault = "privatelink.vaultcore.azure.net"
+    azure_app_service  = "privatelink.azurewebsites.net"
+    azure_sql_server   = "privatelink.database.windows.net"
+    azure_key_vault    = "privatelink.vaultcore.azure.net"
     azure_storage_blob = "privatelink.blob.core.windows.net"
     azure_acr          = "privatelink.azurecr.io"
   }

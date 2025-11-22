@@ -1,9 +1,9 @@
 locals {
   resource_groups = {
-    observability     = "observability"
-    vnet              = "vnet"
-    sql               = "sql"
-    app               = "app"
+    observability = "observability"
+    vnet          = "vnet"
+    sql           = "sql"
+    app           = "app"
   }
 }
 

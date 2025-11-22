@@ -1,6 +1,6 @@
 locals {
   audience = "api://AzureADTokenExchange"
-  
+
   msi = {
     additional_role_assignments = {
       state_storage = {
@@ -8,8 +8,8 @@ locals {
         role_name = "Reader"
       }
     }
-    
-    
+
+
   }
 }
 
@@ -22,7 +22,7 @@ module "msi" {
   product             = var.product
   short_description   = each.key
   resource_group_name = module.resource_groups[local.resource_groups.identity].name
-  role_assignments    = merge(
+  role_assignments = merge(
     each.value.role_assignments,
     {
       state_storage = {
@@ -35,7 +35,7 @@ module "msi" {
       }
     }
   )
-  tags                = local.tags
+  tags = local.tags
 }
 
 resource "azurerm_federated_identity_credential" "msi" {

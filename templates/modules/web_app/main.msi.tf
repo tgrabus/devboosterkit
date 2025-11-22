@@ -6,4 +6,5 @@ module "managed_identity" {
   product             = var.product
   short_description   = var.short_description
   resource_group_name = var.resource_group_name
+  role_assignments    = var.role_assignments
 }

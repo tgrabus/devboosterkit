@@ -33,7 +33,7 @@ resource "azurerm_container_registry_task" "agent_image_build_task" {
     dockerfile_path      = var.container_registry_dockerfile_name
     context_path         = var.container_registry_dockerfile_repository
     context_access_token = "default"
-    image_names          = ["${var.container_registry_image_name}:${ var.container_registry_image_tag}"]
+    image_names          = ["${var.container_registry_image_name}:${var.container_registry_image_tag}"]
   }
 
   identity {

@@ -7,7 +7,7 @@ locals {
 }
 
 module "observability" {
-  source              = "../../modules/observability"
+  source              = "../../../modules/observability"
   instance            = var.instance
   location            = var.location
   stage               = var.stage

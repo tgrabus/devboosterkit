@@ -31,6 +31,7 @@ variable "resource_group_name" {
 
 variable "os_type" {
   type        = string
+  default     = "Linux"
   description = "The operating system for the Web App (Windows or Linux)"
 }
 
@@ -58,9 +59,6 @@ variable "app_stack" {
   })
   description = <<DESCRIPTION
 Application runtime stack configuration.
-
-Each object supports:
-
 - `dotnet_version` - Optional. .NET runtime version (e.g., "v8.0").
 - `docker_registry_url` - Optional. Docker registry server URL for containerized apps.
 - `docker_image_name` - Optional. Docker image name (optionally including tag), used when deploying a container.
@@ -75,7 +73,7 @@ variable "public_network_access_enabled" {
 
 variable "always_on" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "https_only" {
@@ -118,9 +116,6 @@ variable "private_endpoints" {
   default     = {}
   description = <<DESCRIPTION
 A map of Private Endpoints to create for the Web App.
-
-Map key is an arbitrary identifier. Each object supports:
-
 - `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net).
 - `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
 - `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
@@ -145,4 +140,16 @@ variable "application_insights" {
 variable "action_group_id" {
   type        = string
   description = "Action Group to use when alerts are raised"
+}
+
+variable "role_assignments" {
+  type = map(object({
+    scope     = string
+    role_name = string
+  }))
+  default     = {}
+  description = <<DESCRIPTION
+- `scope` - The Azure Resource ID of the scope where the role assignment applies.
+- `role_name` - The name of the built-in or custom role to assign.
+DESCRIPTION
 }
