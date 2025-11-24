@@ -28,8 +28,7 @@ module "network" {
   # Subnets configuration
   subnets = {
     web = {
-      cidr_range_size = 24
-      idx             = 1
+      address_prefix = "10.0.1.0/24"
       nsg_rules = [
         {
           name                    = "AllowHTTP"
@@ -50,11 +49,11 @@ module "network" {
           service = "Microsoft.Web/serverFarms"
         }
       ]
+      nat_gateway_enabled = false
     }
-    
+
     app = {
-      cidr_range_size = 24
-      idx             = 2
+      address_prefix = "10.0.2.0/24"
       nsg_rules = [
         {
           name                    = "AllowFromWeb"
@@ -63,12 +62,10 @@ module "network" {
           destination_port_ranges = ["8080", "8443"]
         }
       ]
-      delegations = []
     }
-    
+
     data = {
-      cidr_range_size = 24
-      idx             = 3
+      address_prefix = "10.0.3.0/24"
       nsg_rules = [
         {
           name                    = "AllowFromApp"
@@ -77,7 +74,6 @@ module "network" {
           destination_port_ranges = ["1433", "5432"]
         }
       ]
-      delegations = []
     }
   }
 

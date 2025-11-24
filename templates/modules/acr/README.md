@@ -6,11 +6,7 @@ This module creates an Azure Container Registry (ACR) with standardized naming c
 
 ## Usage
 
-To use this module in your Terraform configuration, you'll need to provide values for the required variables.
-
-### Example - Basic Container Registry
-
-This example shows the most basic usage of the module for creating a container registry.
+### Example - Container Registry
 ```terraform
 module "acr" {
   source = "./modules/acr"

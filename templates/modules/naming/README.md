@@ -6,17 +6,6 @@ This module is used to standardize Azure resource naming conventions and ensure 
 
 The naming module provides consistent, predictable, and Azure-compliant naming for all resource types while allowing customization for specific organizational requirements.
 
-## Features
-
-This module supports standardized naming for Azure resources with the following capabilities:
-
-- Generates consistent names following Azure naming conventions
-- Supports region-based naming conventions
-- Validates resource names against Azure length and character restrictions
-- Provides environment-specific naming (dev, staging, prod)
-- Handles resource type-specific naming requirements
-- Validates against Azure reserved words and restrictions
-
 Supported pattern is:
 `resource_type_product_location_stage_instance_short_description`
 
@@ -27,11 +16,8 @@ The full list of resource types can be found [here](https://github.com/aztfmod/t
 
 ## Usage
 
-To use this module in your Terraform configuration, you'll need to provide values for the required variables.
+### Example - Resource Naming
 
-### Example - Basic Resource Naming
-
-This example shows the most basic usage of the module for generating standardized resource names.
 ```terraform
 module "vnet_naming" {
   source              = "../naming"
@@ -124,6 +110,6 @@ The following Modules are called:
 
 Source: azurerm/locations/azure
 
-Version: 0.2.6
+Version: 0.2.8
 
 <!-- END_TF_DOCS -->
