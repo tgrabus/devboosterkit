@@ -8,13 +8,6 @@ locals {
       }
     }
 
-    roles = {
-      sample_app_blob_contributor = {
-        role_definition_id_or_name = "Key Vault Secrets User"
-        principal_id               = module.sample_app.identity.principal_id
-      }
-    }
-
     secrets = {
       third_party_api_key = {
         name                 = "third-party-api-key"

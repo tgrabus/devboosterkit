@@ -26,7 +26,8 @@ locals {
     }
 
     managed_identities = {
-      system_assigned = true
+      system_assigned            = false
+      user_assigned_resource_ids = [module.managed_identity.resource_id]
     }
   }
 
@@ -36,10 +37,13 @@ locals {
         name = "vulnerabilityassessment"
       }
     }
+  }
+
+  msi = {
     roles = {
-      sql_server_identity = {
-        role_definition_id_or_name = "Storage Blob Data Contributor"
-        principal_id               = module.server.resource.identity[0].principal_id
+      audit_storage = {
+        role_name = "Storage Blob Data Contributor"
+        scope     = module.audit_storage.resource_id
       }
     }
   }

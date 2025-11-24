@@ -58,9 +58,6 @@ variable "private_endpoints" {
   default     = {}
   description = <<DESCRIPTION
 A map of Private Endpoints to create for the Key Vault.
-
-Map key is an arbitrary identifier. Each object supports:
-
 - `private_dns_zone_resource_id` - Resource ID of the Private DNS Zone to link (e.g. /subscriptions/<subId>/resourceGroups/<rg>/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net).
 - `subnet_resource_id` - Resource ID of the subnet where the Private Endpoint will be created.
 - `resource_group_name` - Optional. Target resource group name for the Private Endpoint resource. If omitted, module defaults are used.
@@ -85,22 +82,6 @@ variable "soft_delete_retention_days" {
   description = "The number of days that items should be retained for once soft-deleted"
 }
 
-variable "roles" {
-  type = map(object({
-    role_definition_id_or_name = string
-    principal_id               = string
-  }))
-  default     = {}
-  description = <<DESCRIPTION
-Map of role assignments to create for this Key Vault.
-
-Map key is an arbitrary identifier. Each object supports:
-
-- `role_definition_id_or_name` - The role to assign. Can be a built-in role name (e.g., "Key Vault Secrets Officer") or a role definition ID (GUID).
-- `principal_id` - Object ID of the principal (user, group, or managed identity) that will receive the role assignment.
-DESCRIPTION
-}
-
 variable "tags" {
   type        = map(string)
   description = "A mapping of tags to assign to the resource"
@@ -118,9 +99,6 @@ variable "secrets" {
   default     = {}
   description = <<DESCRIPTION
 Map of Key Vault secrets to create.
-
-Map key is a logical identifier. Each object supports:
-
 - `name` - Name of the secret as it will appear in Key Vault.
 - `value` - Secret value (ensure you handle sensitive values securely).
 - `content_type` - Optional. Content type metadata for the secret. Defaults to "string".

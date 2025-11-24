@@ -1,35 +1,11 @@
 # Azure SQL Server Module
 
-This module creates an Azure SQL Server with databases, elastic pools, and comprehensive security configurations. 
-The module provides a standardized approach to deploying SQL Server instances with Azure Active Directory integration, 
-firewall rules, and audit logging capabilities.
-
-The module leverages Azure Verified Modules (AVM) to ensure best practices and provides configurable 
-database configurations, backup policies, and private endpoint support for enhanced security.
-
-## Features
-
-This module provides SQL Server functionality with the following capabilities:
-
-- Creates Azure SQL Server with standardized naming conventions
-- Azure Active Directory administrator configuration
-- Managed identity integration
-- Firewall rules and network access control
-- Private endpoint support for secure connectivity
-- Elastic pool configuration for cost optimization
-- Database creation with configurable service tiers
-- Audit logging to storage account or Log Analytics
-- Threat detection and vulnerability assessment
-- Diagnostic settings integration
-- Comprehensive tagging support
+This module creates an Azure SQL Server with databases, elastic pools, and comprehensive security configurations. Based on Azure Verified Modules (AVM), it provides enterprise-grade database capabilities with Azure Active Directory integration, private endpoints, and audit logging.
 
 ## Usage
 
-To use this module in your Terraform configuration, you'll need to provide values for the required variables.
-
 ### Example - Basic SQL Server with Database
 
-This example shows the most basic usage of the module for creating a SQL Server with a database.
 ```terraform
 module "sql_server" {
   source = "./modules/sql_server"

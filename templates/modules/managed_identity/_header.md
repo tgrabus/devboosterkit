@@ -1,26 +1,13 @@
 # Azure Managed Identity Module
 
-This module creates user-assigned managed identities in Azure with optional role assignments. 
-Managed identities provide an identity for applications to use when connecting to resources that support Azure Active Directory authentication.
-
-The module simplifies the creation and configuration of user-assigned managed identities while providing flexible role assignment capabilities for secure access to Azure resources.
-
-## Features
-
-This module provides managed identity functionality with the following capabilities:
-
-- Creates user-assigned managed identities with consistent naming
-- Integrates with Azure naming conventions for consistent resource naming
-- Provides essential identity outputs (resource ID, principal ID, client ID)
-- Supports flexible role-based access control (RBAC) configuration
+This module creates user-assigned managed identities in Azure with optional role assignments. Based on Azure Verified Modules (AVM), it provides secure identity management for applications to access Azure resources without storing credentials.
 
 ## Usage
 
 To use this module in your Terraform configuration, you'll need to provide values for the required variables.
 
-### Example - Basic Managed Identity
+### Example - Managed Identity
 
-This example shows the most basic usage of the module for creating a user-assigned managed identity.
 ```terraform
 module "managed_identity" {
   source = "./modules/managed_identity"

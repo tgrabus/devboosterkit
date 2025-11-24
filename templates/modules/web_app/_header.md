@@ -1,34 +1,11 @@
 # Azure Web App Module
 
-This module creates an Azure Web App (App Service) with comprehensive configuration options for hosting web applications, 
-APIs, and containerized applications. The module provides standardized deployment patterns with built-in security, 
-monitoring, and identity management.
-
-The module leverages Azure Verified Modules (AVM) to ensure best practices and provides configurable 
-application stacks, private endpoints, managed identities, and Application Insights integration.
-
-## Features
-
-This module provides Web App functionality with the following capabilities:
-
-- Creates Azure Web App with standardized naming conventions
-- Support for multiple application stacks (.NET, Docker, etc.)
-- Managed identity integration (system and user-assigned)
-- Virtual network integration and private endpoints
-- IP restriction rules for enhanced security
-- Application Insights integration with configurable retention
-- Container registry integration with managed identity
-- Always-on and auto-scaling capabilities
-- Built-in monitoring and alerting
-- Comprehensive tagging support
+This module creates an Azure Web App for hosting web applications, APIs, and containerized applications. Based on Azure Verified Modules (AVM), it provides enterprise-grade hosting with managed identities, private endpoints, and Application Insights integration.
 
 ## Usage
 
-To use this module in your Terraform configuration, you'll need to provide values for the required variables.
-
 ### Example - Basic Web App with Application Insights
 
-This example shows the most basic usage of the module for creating a web app with monitoring.
 ```terraform
 module "web_app" {
   source = "./modules/web_app"

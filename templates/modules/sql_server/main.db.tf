@@ -15,4 +15,5 @@ module "databases" {
   short_term_retention_policy         = each.value.short_term_retention_policy
   long_term_retention_policy          = each.value.long_term_retention_policy
   zone_redundant                      = var.elastic_pool.zone_redundant
+  tags                                = var.tags
 }

@@ -1,31 +1,12 @@
 # Azure Container Registry Module
 
-This module creates an Azure Container Registry (ACR) with standardized naming conventions and security best practices. 
-The module supports multiple SKU tiers (Basic, Standard, Premium) and provides configurable network access controls, 
-private endpoints, and role-based access control (RBAC) for secure container image management.
-
-The module leverages Azure Verified Modules (AVM) to ensure best practices and provides enterprise-grade features.
-
-## Features
-
-This module provides container registry functionality with the following capabilities:
-
-- Creates Azure Container Registry with standardized naming conventions
-- Support for Basic, Standard, and Premium SKU tiers
-- Configurable public/private network access
-- Private endpoint support for Premium SKU
-- Network firewall rules with IP allowlisting
-- Zone redundancy for Premium SKU
-- Role-based access control (RBAC) assignments
-- Integration with managed identities and service principals
+This module creates an Azure Container Registry (ACR) with standardized naming conventions and security best practices. Based on Azure Verified Modules (AVM), it provides enterprise-grade container registry capabilities with support for multiple SKU tiers and network isolation.
 
 ## Usage
 
 To use this module in your Terraform configuration, you'll need to provide values for the required variables.
 
-### Example - Basic Container Registry
-
-This example shows the most basic usage of the module for creating a container registry.
+### Example - Container Registry
 ```terraform
 module "acr" {
   source = "./modules/acr"
@@ -48,18 +29,6 @@ module "acr" {
   allowed_ip_ranges = {
     "office"     = "203.0.113.0/24"
     "build-agent" = "198.51.100.1/32"
-  }
-
-  # Role assignments
-  roles = {
-    "devops-team" = {
-      role_definition_id_or_name = "AcrPush"
-      principal_id               = "12345678-1234-1234-1234-123456789012"
-    }
-    "app-identity" = {
-      role_definition_id_or_name = "AcrPull"
-      principal_id               = "87654321-4321-4321-4321-210987654321"
-    }
   }
 
   # Private endpoints for Premium SKU

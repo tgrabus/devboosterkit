@@ -23,9 +23,13 @@ locals {
     }
 
     roles = {
-      sample_app_blob_contributor = {
+      file_storage = {
         role_name = "Storage Blob Data Contributor"
         scope     = module.file_storage.resource_id
+      }
+      secret_storage = {
+        role_name = "Key Vault Secrets User"
+        scope               = module.secret_storage.resource_id
       }
     }
   }

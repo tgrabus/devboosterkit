@@ -1,30 +1,13 @@
 # Azure Network Module
 
-This module creates a comprehensive Azure Virtual Network (VNet) infrastructure with subnets, network security groups (NSGs), 
-and route tables. The module provides a standardized approach to network segmentation and security for Azure workloads.
-
-The module leverages Azure Verified Modules (AVM) to ensure best practices and provides configurable subnet definitions, 
-NSG rules, and network routing capabilities for enterprise-grade network architecture.
-
-## Features
-
-This module provides network infrastructure functionality with the following capabilities:
-
-- Creates Virtual Network with standardized naming conventions
-- Configurable address space and subnet definitions
-- Network Security Groups (NSGs) with customizable rules
-- Route tables for custom routing scenarios
-- VM protection enabled by default
-- Support for multiple subnets with different configurations
-- Integration with Azure services delegation
+This module creates an Azure Virtual Network infrastructure with subnets, network security groups, and route tables. Based on Azure Verified Modules (AVM), it provides enterprise-grade network segmentation and security for Azure workloads.
 
 ## Usage
 
 To use this module in your Terraform configuration, you'll need to provide values for the required variables.
 
-### Example - Basic Virtual Network with Subnets
+### Example - Virtual Network with Subnets
 
-This example shows the most basic usage of the module for creating a virtual network with multiple subnets.
 ```terraform
 module "network" {
   source = "./modules/network"

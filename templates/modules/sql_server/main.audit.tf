@@ -6,7 +6,6 @@ module "audit_storage" {
   stage                         = var.stage
   short_description             = "dbaudit"
   resource_group_name           = var.resource_group_name
-  roles                         = local.audit_storage.roles
   enable_firewall               = true
   public_network_access_enabled = true
   shared_access_key_enabled     = true

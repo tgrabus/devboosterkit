@@ -28,6 +28,5 @@ module "this" {
   soft_delete_retention_days     = var.soft_delete_retention_days
   private_endpoints              = local.private_endpoints
   network_acls                   = local.network_acl
-  role_assignments               = var.roles
   tags                           = var.tags
 }

@@ -1,33 +1,11 @@
 # Azure Storage Account Module
 
-This module creates an Azure Storage Account with configurable tiers, replication options, and security features. 
-The module provides a standardized approach to cloud storage with support for blobs, files, queues, tables, 
-and advanced features like SFTP and hierarchical namespace.
-
-The module leverages Azure Verified Modules (AVM) to ensure best practices and provides configurable 
-network access controls, private endpoints, and role-based access control for secure data management.
-
-## Features
-
-This module provides storage account functionality with the following capabilities:
-
-- Creates Storage Account with standardized naming conventions
-- Support for multiple storage tiers (Standard, Premium)
-- Configurable replication types (LRS, GRS, RAGRS, ZRS, GZRS, RAGZRS)
-- Network firewall rules with IP allowlisting
-- Private endpoint support for secure connectivity
-- SFTP protocol support with hierarchical namespace
-- Container and queue creation
-- Role-based access control (RBAC) assignments
-- Comprehensive tagging support
+This module creates an Azure Storage Account with configurable tiers, replication options, and security features. Based on Azure Verified Modules (AVM), it provides enterprise-grade cloud storage with support for blobs, files, queues, SFTP, and private endpoint connectivity.
 
 ## Usage
 
-To use this module in your Terraform configuration, you'll need to provide values for the required variables.
-
 ### Example - Basic Storage Account with Containers
 
-This example shows the most basic usage of the module for creating a storage account with containers.
 ```terraform
 module "storage_account" {
   source = "./modules/storage_account"
