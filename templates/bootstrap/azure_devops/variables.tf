@@ -7,6 +7,15 @@ variable "subscription_id_dev" {
   }
 }
 
+variable "subscription_id_production" {
+  description = "The identifier of the production Subscription"
+  type        = string
+  validation {
+    condition     = can(regex("^[0-9a-fA-F-]{36}$", var.subscription_id_dev))
+    error_message = "The production subscription ID must be a valid GUID"
+  }
+}
+
 variable "bootstrap_subscription_id" {
   description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription"
   type        = string

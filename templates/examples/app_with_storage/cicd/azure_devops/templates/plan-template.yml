@@ -1,0 +1,64 @@
+# ==============================================================================
+# Azure DevOps Build Template
+# ==============================================================================
+# This YAML pipeline will:
+#   1. Plan Terraform changes
+#   2. Scan terraform against misconfiguration and vulnerabilities
+# ==============================================================================
+
+parameters:
+  - name: AzureRmServiceConnection
+    type: string
+
+  - name: Environment
+    type: string
+
+  - name: RootModulePath
+    type: string
+
+jobs:
+  # ----------------------------------------------------------------------------
+  # Plan terraform
+  # ----------------------------------------------------------------------------      
+  - job: Plan
+    displayName: "🏗️ Plan for ${{ parameters.Environment }}"
+    timeoutInMinutes: 60
+    variables:
+      PlanOutputFile: '${{ parameters.Environment }}.tfplan'
+    steps:
+      - checkout: self
+        displayName: "Checkout Repository"
+
+      - task: TerraformInstaller@1
+        displayName: 'Install Terraform'
+        inputs:
+          terraformVersion: $(terraformVersion)
+
+      - task: TerraformTask@5
+        displayName: 'Init Terraform'
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: ${{ parameters.RootModulePath }}
+          backendServiceArm: ${{ parameters.AzureRmServiceConnection }}
+          backendAzureRmUseEntraIdForAuthentication: true
+          backendAzureRmResourceGroupName: $(BACKEND_AZURE_RESOURCE_GROUP_NAME)
+          backendAzureRmStorageAccountName: $(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)
+          backendAzureRmContainerName: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)
+          backendAzureRmKey: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)
+
+      - task: TerraformTask@5
+        name: terraformPlan
+        displayName: 'Terraform Plan'
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: ${{ parameters.RootModulePath }}
+          commandOptions: >-
+            -input=false -out=$(PlanOutputFile) -detailed-exitcode
+          environmentServiceNameAzureRM: ${{ parameters.AzureRmServiceConnection }}
+                   
+      - script: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b .
+          ./trivy fs --scanners vuln,misconfig '${{ parameters.RootModulePath }}/$(PlanOutputFile)'
+        displayName: "👮 Validate security ${{ parameters.Stage }}"

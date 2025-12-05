@@ -1,0 +1,84 @@
+# ==============================================================================
+# Azure DevOps CI Pipeline
+# ==============================================================================
+
+trigger:
+  - none
+
+variables:
+  TerraformVersion: "1.12.1"
+  TerraformWorkingDirectory: "$(Build.SourcesDirectory)/templates/examples/app_with_storage/infrastructure"
+
+pool:
+  ${agent_pool_configuration}
+
+stages:
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Terraform Code
+  # ----------------------------------------------------------------------------
+  - stage: Validate
+    displayName: Validation Terraform
+    jobs:
+      - job: validate
+        displayName: Validate Terraform
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: 'Install Terraform'
+            inputs:
+              terraformVersion: $(TerraformVersion)
+
+          - task: TerraformTask@5
+            displayName: 'Terraform Format Check'
+            inputs:
+              provider: 'azurerm'
+              command: 'custom'
+              customCommand: 'fmt'
+              commandOptions: '-check -recursive'
+              workingDirectory: $(TerraformWorkingDirectory)
+            
+          - pwsh: |
+              terraform `
+              -chdir="$(TerraformWorkingDirectory)" `
+              init `
+              -backend=false
+            displayName: Terraform Init
+            
+          - task: TerraformTask@5
+            displayName: 'Terraform Validate'
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+              workingDirectory: $(TerraformWorkingDirectory)
+
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Dev Plan
+  # ----------------------------------------------------------------------------
+  - stage: Plan_Dev
+    displayName: "🏗️ Plan"
+    dependsOn: Validate
+    variables:
+      - group: ${variable_group_name_dev}
+    jobs:
+      - template: templates/plan-template.yml
+        parameters:
+          AzureRmServiceConnection: ${service_connection_name_dev}
+          Environment: ${environment_name_dev}
+          RootModulePath: $(TerraformWorkingDirectory)
+          
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Production Plan
+  # ----------------------------------------------------------------------------
+  - stage: Plan_Prod
+    displayName: "🏗️ Plan"
+    dependsOn: Validate
+    variables:
+      - group: ${variable_group_name_prod}
+    jobs:
+      - template: templates/plan-template.yml
+        parameters:
+          AzureRmServiceConnection: ${service_connection_name_prod}
+          Environment: ${environment_name_prod}
+          RootModulePath: $(TerraformWorkingDirectory)
+          

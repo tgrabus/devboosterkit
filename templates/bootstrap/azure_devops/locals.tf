@@ -1,12 +1,16 @@
 locals {
-  target_subscriptions = { for subscription_id in distinct([var.subscription_id_dev, var.bootstrap_subscription_id]) : subscription_id => subscription_id }
+  target_subscriptions = { for subscription_id in distinct([var.subscription_id_dev, var.subscription_id_production, var.bootstrap_subscription_id]) : subscription_id => subscription_id }
 }
 
 locals {
   environments = {
     dev = {
-      environment_name = "dev"
+      environment_name = "development"
       subscription_id  = var.subscription_id_dev
+    }
+    prod = {
+      environment_name = "production"
+      subscription_id  = var.subscription_id_production
     }
   }
 }
