@@ -34,12 +34,11 @@ locals {
   enable_application_insights = var.application_insights != null ? true : false
 
   app_insights = (var.application_insights != null ? {
-    name                  = module.naming_app_insights.result
-    application_type      = "web"
-    resource_group_name   = var.application_insights.resource_group_name
-    workspace_resource_id = var.application_insights.la_workspace_id
-    retention_in_days     = var.application_insights.retention_in_days
-    #tags                       = var.tags
+    name                       = module.naming_app_insights.result
+    application_type           = "web"
+    resource_group_name        = var.application_insights.resource_group_name
+    workspace_resource_id      = var.application_insights.la_workspace_id
+    retention_in_days          = var.application_insights.retention_in_days
     internet_ingestion_enabled = true
     internet_query_enabled     = true
   } : {})

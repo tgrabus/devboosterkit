@@ -21,18 +21,6 @@ locals {
 }
 
 locals {
-  task_push_roles = {
-    for key, task in var.tasks : key =>
-    {
-      role_definition_id_or_name = "AcrPush"
-      principal_id               = azurerm_container_registry_task.tasks[key].identity[0].principal_id
-    }
-  }
-
-  role_assignments = local.task_push_roles
-}
-
-locals {
   managed_identities = {
     system_assigned = true
   }

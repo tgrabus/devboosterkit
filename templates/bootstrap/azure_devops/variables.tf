@@ -11,7 +11,7 @@ variable "subscription_id_production" {
   description = "The identifier of the production Subscription"
   type        = string
   validation {
-    condition     = can(regex("^[0-9a-fA-F-]{36}$", var.subscription_id_dev))
+    condition     = can(regex("^[0-9a-fA-F-]{36}$", var.subscription_id_production))
     error_message = "The production subscription ID must be a valid GUID"
   }
 }
@@ -81,13 +81,13 @@ variable "agent_container_image_folder" {
 variable "agent_container_image_dockerfile" {
   description = "The Dockerfile to use for the container image"
   type        = string
-  default     = "dockerfile"
+  default     = "Dockerfile"
 }
 
 variable "agent_container_image_tag" {
   description = "The container image tag to use for Azure DevOps Agents"
   type        = string
-  default     = "39b9059"
+  default     = "57a937f"
 }
 
 variable "agent_container_image_name" {

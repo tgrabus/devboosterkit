@@ -29,7 +29,7 @@ locals {
       }
       secret_storage = {
         role_name = "Key Vault Secrets User"
-        scope               = module.secret_storage.resource_id
+        scope     = module.secret_storage.resource_id
       }
     }
   }

@@ -14,3 +14,9 @@ output "service_connections" {
   } }
 }
 
+output "variable_groups" {
+  value = { for key, value in azuredevops_variable_group.environments : key => {
+    name = value.name
+  } }
+}
+

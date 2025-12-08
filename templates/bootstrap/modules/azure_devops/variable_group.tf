@@ -3,7 +3,7 @@ resource "azuredevops_variable_group" "environments" {
 
   project_id   = local.project_id
   name         = each.key
-  description  = each.key
+  description  = each.value.environment_name
   allow_access = true
 
   variable {
@@ -19,6 +19,11 @@ resource "azuredevops_variable_group" "environments" {
   variable {
     name  = "BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME"
     value = each.key
+  }
+
+  variable {
+    name  = "BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME"
+    value = "terraform.tfstate"
   }
 }
 

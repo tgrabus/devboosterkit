@@ -32,10 +32,9 @@ module "aci" {
   }
 
   environment_vars = {
-    "AZP_URL"         = var.agent_organization_url
-    "AZP_AGENT_NAME"  = each.key
-    "AZP_POOL"        = var.agent_pool_name
-    "ACR_TASKS_READY" = length(module.acr.tasks_completed) > 0 ? "true" : "false"
+    "AZP_URL"        = var.agent_organization_url
+    "AZP_AGENT_NAME" = each.key
+    "AZP_POOL"       = var.agent_pool_name
   }
 
   secure_environment_vars = {
@@ -43,4 +42,8 @@ module "aci" {
   }
 
   tags = local.tags
+
+  depends_on = [
+    azurerm_container_registry_task_schedule_run_now.agent_image_build_task
+  ]
 }

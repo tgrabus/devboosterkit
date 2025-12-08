@@ -3,6 +3,10 @@ locals {
 }
 
 locals {
+  agent_pool_configuration = "name: ${module.azure_devops.agent_pool_name}"
+}
+
+locals {
   environments = {
     dev = {
       environment_name = "development"
@@ -58,7 +62,23 @@ locals {
 }
 
 locals {
-  pipelines = {}
+  modules_directory_path = "${path.module}/../../modules"
+  modules_files = { for key, value in fileset(local.modules_directory_path, "**") : "modules/${key}" =>
+    {
+      content = file("${local.modules_directory_path}/${key}")
+    } if !endswith(key, ".tfstate") && !endswith(key, ".auto.tfvars") &&
+    !endswith(key, ".tfstate.backup") && !can(regex("\\.terraform/", key))
+  }
 
-  repository_files = {}
+  example_directory_path = "${path.module}/../../examples/app_with_storage"
+  example_files = { for key, value in fileset(local.example_directory_path, "**") : "examples/app_with_storage/${key}" =>
+    {
+      content = file("${local.example_directory_path}/${key}")
+    } if !endswith(key, ".tfstate") && !endswith(key, ".auto.tfvars") &&
+    !endswith(key, ".tfstate.backup") && !can(regex("\\.terraform/", key))
+  }
+
+  repository_files = merge(local.modules_files, local.example_files)
+
+  pipelines = {}
 }

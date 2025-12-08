@@ -17,7 +17,7 @@ variables:
   TerraformWorkingDirectory: "$(Build.SourcesDirectory)/templates/examples/app_with_storage/infrastructure"
 
 pool:
-  ${agent_pool_configuration}
+  name: 'Sample'
 
 stages:
 
@@ -27,12 +27,12 @@ stages:
   - stage: Deploy_Development
     displayName: "🚀 Development Stage"
     variables:
-      - group: ${variable_group_name_dev}
+      - group: 'development'
     jobs:
       - template: templates/cd-template.yml
         parameters:
-          AzureRmServiceConnection: ${service_connection_name_dev}
-          Environment: ${environment_name_dev}
+          AzureRmServiceConnection: 'development'
+          Environment: 'development'
           RunApproval: false
 
   # ----------------------------------------------------------------------------
@@ -43,10 +43,10 @@ stages:
     dependsOn:
       - Deploy_Development
     variables:
-      - group: ${variable_group_name_prod}
+      - group: 'production'
     jobs:
       - template: templates/cd-template.yml
         parameters:
-          AzureRmServiceConnection: ${service_connection_name_prod}
-          Environment: ${environment_name_prod}
+          AzureRmServiceConnection: 'production'
+          Environment: 'production'
           RunApproval: true

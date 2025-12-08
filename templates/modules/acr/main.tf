@@ -8,7 +8,6 @@ module "this" {
   admin_enabled                 = false
   public_network_access_enabled = !var.private_networking_enabled
   network_rule_bypass_option    = var.private_networking_enabled ? "AzureServices" : "None"
-  role_assignments              = local.role_assignments
   zone_redundancy_enabled       = var.private_networking_enabled ? true : false
   private_endpoints             = var.private_networking_enabled ? local.private_endpoints : {}
   network_rule_set              = var.private_networking_enabled ? local.network_rule_set : null
