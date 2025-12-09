@@ -23,6 +23,10 @@ terraform {
       source  = "hashicorp/http"
       version = "~> 3.4"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 3.7.0"
+    }
   }
 }
 
@@ -45,4 +49,8 @@ provider "azurerm" {
 provider "azuredevops" {
   personal_access_token = var.azure_devops_personal_access_token
   org_service_url       = module.azure_devops.organization_url
+}
+
+provider "azuread" {
+  tenant_id = var.tenant_id
 }

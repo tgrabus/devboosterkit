@@ -8,6 +8,10 @@ trigger:
 variables:
   TerraformVersion: "1.12.1"
   TerraformWorkingDirectory: "$(Build.SourcesDirectory)/examples/app_with_storage/infrastructure"
+  ServiceConnectionNameDev: 'development'
+  ServiceConnectionNameProd: 'production'
+  EnvironmentDev: 'development'
+  EnvironmentProd: 'production'
 
 pool:
   name: 'Sample'
@@ -37,7 +41,7 @@ stages:
               customCommand: 'fmt'
               commandOptions: '-check -recursive'
               workingDirectory: $(TerraformWorkingDirectory)
-              environmentServiceNameAzureRM: 'development'
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
             
           - task: TerraformTask@5
             displayName: 'Terraform Init'
@@ -47,7 +51,7 @@ stages:
               customCommand: 'init'
               commandOptions: '-backend=false'
               workingDirectory: $(TerraformWorkingDirectory)
-              environmentServiceNameAzureRM: 'development'
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
             
           - task: TerraformTask@5
             displayName: 'Terraform Validate'
@@ -55,35 +59,35 @@ stages:
               provider: 'azurerm'
               command: 'validate'
               workingDirectory: $(TerraformWorkingDirectory)
-              environmentServiceNameAzureRM: 'development'
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
 
   # ----------------------------------------------------------------------------
   # ✅ Validate Dev Plan
   # ----------------------------------------------------------------------------
   - stage: Plan_Dev
-    displayName: "🏗️ Plan"
+    displayName: "🏗️ Plan Dev"
     dependsOn: Validate
     variables:
-      - group: 'development'
+      - group: development
     jobs:
       - template: templates/plan-template.yml
         parameters:
-          AzureRmServiceConnection: 'development'
-          Environment: 'development'
+          AzureRmServiceConnection: $(ServiceConnectionNameDev)
+          Environment: ${{ variables.EnvironmentDev }}
           RootModulePath: $(TerraformWorkingDirectory)
           
   # ----------------------------------------------------------------------------
   # ✅ Validate Production Plan
   # ----------------------------------------------------------------------------
   - stage: Plan_Prod
-    displayName: "🏗️ Plan"
+    displayName: "🏗️ Plan Production"
     dependsOn: Validate
     variables:
-      - group: 'production'
+      - group: production
     jobs:
       - template: templates/plan-template.yml
         parameters:
-          AzureRmServiceConnection: 'production'
-          Environment: 'production'
+          AzureRmServiceConnection: $(ServiceConnectionNameProd)
+          Environment: ${{ variables.EnvironmentProd }}
           RootModulePath: $(TerraformWorkingDirectory)
           

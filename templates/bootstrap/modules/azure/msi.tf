@@ -47,3 +47,13 @@ resource "azurerm_federated_identity_credential" "msi" {
   parent_id           = module.msi[each.key].resource_id
   subject             = each.value.federated_credential_subject
 }
+
+resource "azuread_directory_role_assignment" "msi_directory_reader" {
+  for_each            = var.user_assigned_managed_identities
+  role_id             = azuread_directory_role.directory_readers.template_id
+  principal_object_id = module.msi[each.key].principal_id
+}
+
+resource "azuread_directory_role" "directory_readers" {
+  display_name = "Directory Readers"
+}

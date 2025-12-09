@@ -1,6 +1,6 @@
 location = "Poland Central"
 
-stage = "dev"
+stage = "development"
 
 instance = 1
 
