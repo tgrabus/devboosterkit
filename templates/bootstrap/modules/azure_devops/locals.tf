@@ -13,8 +13,8 @@ locals {
 locals {
   pipelines = {
     for key, value in var.pipelines : key => {
-      pipeline_name = value.pipeline_name
-      file          = azuredevops_git_repository_file.alz[value.pipeline_file_name].file
+      pipeline_name    = value.pipeline_name
+      file             = azuredevops_git_repository_file.alz[value.pipeline_file_name].file
       build_validation = value.build_validation
     }
   }

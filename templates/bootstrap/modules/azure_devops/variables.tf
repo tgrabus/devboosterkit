@@ -18,9 +18,9 @@ variable "environments" {
 
 variable "pipelines" {
   type = map(object({
-    pipeline_name           = string
-    pipeline_file_name      = string
-    build_validation = optional(bool, false)
+    pipeline_name      = string
+    pipeline_file_name = string
+    build_validation   = optional(bool, false)
   }))
 }
 
@@ -63,6 +63,6 @@ variable "agent_pool_name" {
 }
 
 variable "create_branch_policies" {
-  type = bool
+  type    = bool
   default = true
 }

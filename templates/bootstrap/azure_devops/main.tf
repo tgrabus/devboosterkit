@@ -2,7 +2,7 @@
 module "azure" {
   source                                                    = "../modules/azure"
   location                                                  = var.bootstrap_location
-  environments = local.environments
+  environments                                              = local.environments
   user_assigned_managed_identities                          = local.user_assigned_managed_identities
   federated_credentials                                     = local.federated_credentials
   agent_container_instances                                 = local.agent_container_instances

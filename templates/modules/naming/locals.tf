@@ -2,10 +2,10 @@ locals {
   instance = format("%02d", var.instance)
 
   stage_map = {
-    development   = "dv"
-    qa = "qa"
-    staging       = "st"
-    production    = "pd"
+    development = "dv"
+    qa          = "qa"
+    staging     = "st"
+    production  = "pd"
   }
 
   stage = lookup(local.stage_map, var.stage, var.stage)

@@ -41,12 +41,12 @@ resource "azuredevops_branch_policy_merge_types" "alz" {
 
 locals {
   build_validation_pipelines = { for key, pipeline in local.pipelines : key => pipeline if lookup(pipeline, "build_validation", false) }
-  
+
   build_validation_pipeline_key = one(keys(local.build_validation_pipelines))
 }
 
 resource "azuredevops_branch_policy_build_validation" "alz" {
-  count = length(local.build_validation_pipelines) > 0 ? 1 : 0
+  count      = length(local.build_validation_pipelines) > 0 ? 1 : 0
   depends_on = [azuredevops_git_repository_file.alz]
   project_id = local.project_id
 
