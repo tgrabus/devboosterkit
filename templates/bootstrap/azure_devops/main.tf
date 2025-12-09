@@ -2,6 +2,7 @@
 module "azure" {
   source                                                    = "../modules/azure"
   location                                                  = var.bootstrap_location
+  environments = local.environments
   user_assigned_managed_identities                          = local.user_assigned_managed_identities
   federated_credentials                                     = local.federated_credentials
   agent_container_instances                                 = local.agent_container_instances
@@ -17,6 +18,7 @@ module "azure" {
   container_registry_dockerfile_name                        = var.agent_container_image_dockerfile
   container_registry_dockerfile_repository                  = local.agent_container_instance_dockerfile_url
   target_subscriptions                                      = local.target_subscriptions
+  allowed_ips                                               = local.allowed_ips
 }
 
 module "azure_devops" {

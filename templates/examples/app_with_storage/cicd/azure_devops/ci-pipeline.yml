@@ -7,7 +7,7 @@ trigger:
 
 variables:
   TerraformVersion: "1.12.1"
-  TerraformWorkingDirectory: "$(Build.SourcesDirectory)/templates/examples/app_with_storage/infrastructure"
+  TerraformWorkingDirectory: "$(Build.SourcesDirectory)/examples/app_with_storage/infrastructure"
 
 pool:
   name: 'Sample'

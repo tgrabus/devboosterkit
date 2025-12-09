@@ -1,7 +1,7 @@
 locals {
   state_storage = {
-    containers = { for key, value in var.user_assigned_managed_identities : key => {
-      name = key
+    containers = { for key, value in var.environments : key => {
+      name = value.environment_name
     } }
 
     private_endpoints = {
@@ -24,7 +24,9 @@ module "state_storage" {
   short_description               = "state"
   allow_nested_items_to_be_public = false
   shared_access_key_enabled       = false
-  public_network_access_enabled   = false
+  public_network_access_enabled   = length(var.allowed_ips) > 0 ? true : false
+  enable_firewall                 = length(var.allowed_ips) > 0 ? true : false
+  allowed_ip_ranges               = var.allowed_ips
   containers                      = local.state_storage.containers
   replication_type                = "ZRS"
   private_endpoints               = local.state_storage.private_endpoints

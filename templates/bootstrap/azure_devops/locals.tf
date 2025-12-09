@@ -3,7 +3,10 @@ locals {
 }
 
 locals {
-  agent_pool_configuration = "name: ${module.azure_devops.agent_pool_name}"
+  allowed_ips = (var.allow_access_from_my_ip ?
+    {
+      my_ip = format("%s/32", data.http.ip[0].response_body)
+  } : {})
 }
 
 locals {
@@ -79,6 +82,22 @@ locals {
   }
 
   repository_files = merge(local.modules_files, local.example_files)
+}
 
-  pipelines = {}
+locals {
+  cicd_target_folder_name = "examples/app_with_storage/cicd/azure_devops"
+  ci_file_name          = "ci-pipeline.yml"
+  cd_file_name          = "cd-pipeline.yml"
+  
+  pipelines = {
+    ci = {
+      pipeline_name      = "app_with_storage_ci"
+      pipeline_file_name = "${local.cicd_target_folder_name}/${local.ci_file_name}"
+      build_validation = true
+    }
+    cd = {
+      pipeline_name      = "app_with_storage_cd"
+      pipeline_file_name = "${local.cicd_target_folder_name}/${local.cd_file_name}"
+    }
+  }
 }

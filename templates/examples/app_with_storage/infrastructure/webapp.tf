@@ -67,7 +67,7 @@ module "sample_app" {
   action_group_id               = module.observability.action_groups["default"].id
   application_insights          = local.sample_app.application_insights
   public_network_access_enabled = var.public_network_access_enabled
-  allowed_ips                   = var.allowed_ips
+  allowed_ips                   = local.allowed_ips
   role_assignments              = local.sample_app.roles
   tags                          = local.tags
 }

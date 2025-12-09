@@ -143,3 +143,8 @@ variable "version_control_repository_name" {
   description = "Repository name for holding project files"
   default     = "Sample"
 }
+
+variable "allow_access_from_my_ip" {
+  type    = bool
+  default = true
+}

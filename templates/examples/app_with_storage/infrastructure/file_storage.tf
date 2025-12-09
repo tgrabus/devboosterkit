@@ -21,7 +21,7 @@ module "file_storage" {
   short_description             = "file"
   resource_group_name           = module.resource_groups[local.resource_groups.app].name
   private_endpoints             = local.file_storage.private_endpoints
-  allowed_ip_ranges             = var.allowed_ips
+  allowed_ip_ranges             = local.allowed_ips
   public_network_access_enabled = var.public_network_access_enabled
   enable_firewall               = var.public_network_access_enabled
   tags                          = local.tags

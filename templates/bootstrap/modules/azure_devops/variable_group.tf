@@ -2,8 +2,8 @@ resource "azuredevops_variable_group" "environments" {
   for_each = var.environments
 
   project_id   = local.project_id
-  name         = each.key
-  description  = each.value.environment_name
+  name         = each.value.environment_name
+  description  = "Var groups for ${each.value.environment_name} environment"
   allow_access = true
 
   variable {
@@ -18,7 +18,7 @@ resource "azuredevops_variable_group" "environments" {
 
   variable {
     name  = "BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME"
-    value = each.key
+    value = each.value.environment_name
   }
 
   variable {

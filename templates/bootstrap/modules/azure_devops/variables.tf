@@ -20,8 +20,7 @@ variable "pipelines" {
   type = map(object({
     pipeline_name           = string
     pipeline_file_name      = string
-    environment_keys        = list(string)
-    service_connection_keys = list(string)
+    build_validation = optional(bool, false)
   }))
 }
 
@@ -61,4 +60,9 @@ variable "backend_azure_storage_account_name" {
 
 variable "agent_pool_name" {
   type = string
+}
+
+variable "create_branch_policies" {
+  type = bool
+  default = true
 }

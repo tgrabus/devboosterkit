@@ -15,31 +15,18 @@ locals {
     for key, value in var.pipelines : key => {
       pipeline_name = value.pipeline_name
       file          = azuredevops_git_repository_file.alz[value.pipeline_file_name].file
-      environments = [
-        for environment_key in value.environment_keys :
-        {
-          environment_key = environment_key
-          environment_id  = azuredevops_environment.alz[environment_key].id
-        }
-      ]
-      service_connections = [
-        for service_connection_key in value.service_connection_keys :
-        {
-          service_connection_key = service_connection_key
-          service_connection_id  = azuredevops_serviceendpoint_azurerm.alz[service_connection_key].id
-        }
-      ]
+      build_validation = value.build_validation
     }
   }
 
   pipeline_environments = flatten([
     for pipeline_key, pipeline in local.pipelines :
     [
-      for environment in pipeline.environments : {
+      for environment_key, environment in azuredevops_environment.alz : {
         pipeline_key    = pipeline_key
-        environment_key = environment.environment_key
+        environment_key = environment_key
         pipeline_id     = azuredevops_build_definition.pipeline[pipeline_key].id
-        environment_id  = environment.environment_id
+        environment_id  = environment.id
       }
     ]
   ])
@@ -47,11 +34,11 @@ locals {
   pipeline_service_connections = flatten([
     for pipeline_key, pipeline in local.pipelines :
     [
-      for service_connection in pipeline.service_connections : {
+      for service_connection_key, service_connection in azuredevops_serviceendpoint_azurerm.alz : {
         pipeline_key           = pipeline_key
-        service_connection_key = service_connection.service_connection_key
+        service_connection_key = service_connection_key
         pipeline_id            = azuredevops_build_definition.pipeline[pipeline_key].id
-        service_connection_id  = service_connection.service_connection_id
+        service_connection_id  = service_connection.id
       }
     ]
   ])

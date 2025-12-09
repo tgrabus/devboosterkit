@@ -3,8 +3,8 @@ locals {
 
   stage_map = {
     development   = "dv"
-    qualification = "qa"
-    sandbox       = "sb"
+    qa = "qa"
+    staging       = "st"
     production    = "pd"
   }
 

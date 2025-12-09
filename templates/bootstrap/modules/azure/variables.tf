@@ -21,6 +21,12 @@ variable "product" {
   default     = "alz"
 }
 
+variable "environments" {
+  type = map(object({
+    environment_name = string
+  }))
+}
+
 variable "user_assigned_managed_identities" {
   type = map(object({
     role_assignments = optional(map(object({
@@ -145,4 +151,9 @@ variable "resource_providers" {
 
 variable "target_subscriptions" {
   type = map(string)
+}
+
+variable "allowed_ips" {
+  type    = map(string)
+  default = {}
 }

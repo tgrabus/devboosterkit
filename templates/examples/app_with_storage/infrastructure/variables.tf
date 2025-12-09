@@ -1,22 +1,17 @@
-variable "subscription_ids" {
-  type        = map(string)
-  description = "Map of subscription IDs by environment"
-}
+variable "subscription_id" {}
 
 variable "location" {
   type        = string
-  default     = "West Europe"
   description = "Azure region for environment resources"
 }
 
 variable "stage" {
   type        = string
-  default     = "dev"
-  description = "Deployment stage (e.g., dev, test, prod)"
+  description = "Deployment stage (e.g., development, production)"
 
   validation {
-    condition     = contains(["dev", "qa", "staging", "prod"], var.stage)
-    error_message = "Invalid stage. Allowed values are: dev, qa, staging, prod."
+    condition     = contains(["development", "qa", "staging", "production"], var.stage)
+    error_message = "Invalid stage. Allowed values are: development, qa, staging, production."
   }
 }
 
@@ -31,12 +26,9 @@ variable "product" {
   description = "The product name this environment belongs to"
 }
 
-variable "allowed_ips" {
-  type        = map(string)
-  default     = {}
-  description = "Map of whitelisted IPs in CIDR format"
+variable "allow_access_from_my_ip" {
+  type = bool
 }
-
 
 variable "vnet_address_space" {
   type        = string

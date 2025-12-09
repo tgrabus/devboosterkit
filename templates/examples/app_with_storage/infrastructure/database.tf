@@ -42,7 +42,7 @@ module "sql_storage" {
   resource_group_name           = module.resource_groups[local.resource_groups.sql].name
   azuread_administrator         = local.sql.azuread_administrator
   diagnostic_settings           = local.sql.diagnostic_settings
-  allowed_ips                   = var.allowed_ips
+  allowed_ips                   = local.allowed_ips
   private_endpoints             = local.sql.private_endpoints
   elastic_pool                  = local.sql.elastic_pool
   databases                     = local.sql.databases

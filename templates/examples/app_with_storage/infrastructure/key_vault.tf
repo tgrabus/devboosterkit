@@ -30,6 +30,6 @@ module "secret_storage" {
   private_endpoints             = local.secret_storage.private_endpoints
   secrets                       = local.secret_storage.secrets
   public_network_access_enabled = var.public_network_access_enabled
-  allowed_ip_ranges             = var.allowed_ips
+  allowed_ip_ranges             = local.allowed_ips
   tags                          = local.tags
 }
