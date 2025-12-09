@@ -1,4 +1,7 @@
-variable "subscription_id" {}
+variable "subscription_id" {
+  type = string
+  default = null
+}
 
 variable "location" {
   type        = string
