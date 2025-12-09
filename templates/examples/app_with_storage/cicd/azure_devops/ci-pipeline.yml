@@ -37,6 +37,7 @@ stages:
               customCommand: 'fmt'
               commandOptions: '-check -recursive'
               workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: 'development'
             
           - task: TerraformTask@5
             displayName: 'Terraform Init'
@@ -46,6 +47,7 @@ stages:
               customCommand: 'init'
               commandOptions: '-backend=false'
               workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: 'development'
             
           - task: TerraformTask@5
             displayName: 'Terraform Validate'
@@ -53,6 +55,7 @@ stages:
               provider: 'azurerm'
               command: 'validate'
               workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: 'development'
 
   # ----------------------------------------------------------------------------
   # ✅ Validate Dev Plan
