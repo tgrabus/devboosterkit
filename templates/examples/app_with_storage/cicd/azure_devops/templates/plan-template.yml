@@ -62,4 +62,4 @@ jobs:
       - script: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b .
           ./trivy fs --scanners vuln,misconfig '${{ parameters.RootModulePath }}/$(PlanOutputFile)'
-        displayName: "👮 Validate security ${{ parameters.Stage }}"
+        displayName: "👮 Validate security"
