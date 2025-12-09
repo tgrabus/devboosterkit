@@ -81,7 +81,7 @@ variable "allowed_ip_ranges" {
 variable "network_bypass" {
   type        = set(string)
   description = "Services that can bypass the network rules (e.g., AzureServices)"
-  default     = []
+  default     = ["Metrics", "AzureServices"]
 }
 
 variable "containers" {
