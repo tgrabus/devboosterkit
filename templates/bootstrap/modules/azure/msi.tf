@@ -2,14 +2,21 @@ locals {
   audience = "api://AzureADTokenExchange"
 
   msi = {
-    additional_role_assignments = {
-      state_storage = {
-        scope     = module.state_storage.resource_id
-        role_name = "Reader"
-      }
+    role_assignments = {
+      for key, identity in var.user_assigned_managed_identities : key => merge(
+        identity.role_assignments,
+        {
+          state_storage = {
+            scope     = module.state_storage.resource_id
+            role_name = "Reader"
+          },
+          state_storage_container = {
+            scope     = module.state_storage.storage_containers[key].id
+            role_name = "Storage Blob Data Owner"
+          }
+        }
+      )
     }
-
-
   }
 }
 
@@ -22,20 +29,8 @@ module "msi" {
   product             = var.product
   short_description   = each.key
   resource_group_name = module.resource_groups[local.resource_groups.identity].name
-  role_assignments = merge(
-    each.value.role_assignments,
-    {
-      state_storage = {
-        scope     = module.state_storage.resource_id
-        role_name = "Reader"
-      },
-      state_storage_container = {
-        scope     = module.state_storage.storage_containers[each.key].id
-        role_name = "Storage Blob Data Owner"
-      }
-    }
-  )
-  tags = local.tags
+  role_assignments    = local.msi.role_assignments[each.key]
+  tags                = local.tags
 }
 
 resource "azurerm_federated_identity_credential" "msi" {

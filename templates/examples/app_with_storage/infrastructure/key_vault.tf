@@ -31,5 +31,6 @@ module "secret_storage" {
   secrets                       = local.secret_storage.secrets
   public_network_access_enabled = var.public_network_access_enabled
   allowed_ip_ranges             = local.allowed_ips
+  purge_protection_enabled      = var.purge_protection_enabled
   tags                          = local.tags
 }

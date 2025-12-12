@@ -1,8 +1,7 @@
 locals {
   network_rules = {
-    default_action = var.enable_firewall ? "Deny" : null
-    bypass         = var.enable_firewall ? var.network_bypass : []
-    ip_rules       = var.enable_firewall ? [for key, ip_range in var.allowed_ip_ranges : (strcontains(ip_range, "/32") ? cidrhost(ip_range, 0) : ip_range)] : []
+    bypass   = var.enable_firewall ? var.network_bypass : null
+    ip_rules = var.enable_firewall ? [for key, ip_range in var.allowed_ip_ranges : (strcontains(ip_range, "/32") ? cidrhost(ip_range, 0) : ip_range)] : []
   }
 
   private_endpoints = { for key, endpoint in var.private_endpoints : key => {

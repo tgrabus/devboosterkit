@@ -103,10 +103,8 @@ variable "vulnerability_assessment" {
   type = object({
     enabled         = optional(bool, true)
     retention_days  = optional(number, 90)
-    email_addresses = optional(list(string), [])
+    email_addresses = set(string)
   })
-
-  default = {}
 }
 
 variable "private_endpoints" {

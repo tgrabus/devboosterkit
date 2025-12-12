@@ -36,7 +36,7 @@ variable "tenant_id" {
 
 variable "purge_protection_enabled" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "sku_name" {
@@ -78,7 +78,7 @@ variable "allowed_ip_ranges" {
 
 variable "soft_delete_retention_days" {
   type        = number
-  default     = null
+  default     = 7
   description = "The number of days that items should be retained for once soft-deleted"
 }
 

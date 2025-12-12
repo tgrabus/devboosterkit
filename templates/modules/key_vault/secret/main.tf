@@ -4,7 +4,7 @@ resource "azurerm_key_vault_secret" "with_value" {
   value           = var.value
   key_vault_id    = var.key_vault_id
   content_type    = var.content_type
-  expiration_date = var.expiration_date
+  expiration_date = coalesce(var.expiration_date, timeadd(timestamp(), "8760h"))
 }
 
 resource "azurerm_key_vault_secret" "ignored_value" {
@@ -13,7 +13,7 @@ resource "azurerm_key_vault_secret" "ignored_value" {
   value           = var.value
   key_vault_id    = var.key_vault_id
   content_type    = var.content_type
-  expiration_date = var.expiration_date
+  expiration_date = coalesce(var.expiration_date, timeadd(timestamp(), "8760h"))
 
   lifecycle {
     ignore_changes = [value]

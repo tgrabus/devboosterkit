@@ -17,6 +17,10 @@ locals {
       }
     }
 
+    vulnerability_assessment = {
+      email_addresses = []
+    }
+
     elastic_pool = {
       zone_redundant = false
       sku = {
@@ -48,5 +52,6 @@ module "sql_storage" {
   databases                     = local.sql.databases
   action_group_id               = module.observability.action_groups["default"].id
   public_network_access_enabled = var.public_network_access_enabled
+  vulnerability_assessment      = {}
   tags                          = local.tags
 }

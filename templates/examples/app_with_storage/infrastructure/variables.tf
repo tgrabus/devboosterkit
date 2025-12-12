@@ -50,11 +50,15 @@ variable "sql_administrator_group" {
 
 variable "email_receivers" {
   type        = map(string)
-  default     = {}
-  description = "Email addresses used in action group"
+  description = "Email addresses for security alerts and notifications"
 }
 
 variable "public_network_access_enabled" {
   type    = bool
   default = false
+}
+
+variable "purge_protection_enabled" {
+  type    = bool
+  default = true
 }

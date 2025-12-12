@@ -20,3 +20,9 @@ sql_administrator_group = "devboosterkit"
 public_network_access_enabled = true
 
 allow_access_from_my_ip = true
+
+email_receivers = {
+  "example" = "example@gmail.com"
+}
+
+purge_protection_enabled = false

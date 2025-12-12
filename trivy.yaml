@@ -1,0 +1,50 @@
+# ==============================================================================
+# Trivy Configuration File
+# ==============================================================================
+# This configuration file is used to scan Terraform code for security issues,
+# misconfigurations, and vulnerabilities.
+# ==============================================================================
+
+# Scan settings
+scan:
+  severity:
+    - CRITICAL
+    - HIGH
+    - MEDIUM
+    - LOW
+
+# Vulnerability settings
+vulnerability:
+  type:
+    - os
+    - library
+
+# Misconfiguration settings
+misconfig:
+  include-non-failures: false
+
+# Output settings
+format: table
+
+# Timeout settings
+timeout: 5m
+
+# Ignore unfixed vulnerabilities
+ignore-unfixed: false
+
+# Exit code when vulnerabilities are found
+exit-code: 1
+
+# Ignore file path
+ignorefile: .trivyignore.yaml
+
+# Paths to exclude from scanning
+skip-dirs:
+  - .terraform
+
+# Files to exclude from scanning
+skip-files:
+  - "**/*.tfstate"
+  - "**/*.tfstate.backup"
+  - "**/*.lock.hcl"
+
