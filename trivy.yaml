@@ -13,9 +13,9 @@ scan:
     - MEDIUM
     - LOW
 
-# Vulnerability settings
-vulnerability:
-  type:
+# Package settings
+pkg:
+  types:
     - os
     - library
 
