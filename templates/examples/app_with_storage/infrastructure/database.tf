@@ -18,7 +18,7 @@ locals {
     }
 
     vulnerability_assessment = {
-      email_addresses = []
+      email_addresses = values(var.email_receivers)
     }
 
     elastic_pool = {
@@ -52,6 +52,6 @@ module "sql_storage" {
   databases                     = local.sql.databases
   action_group_id               = module.observability.action_groups["default"].id
   public_network_access_enabled = var.public_network_access_enabled
-  vulnerability_assessment      = {}
+  vulnerability_assessment      = local.sql.vulnerability_assessment
   tags                          = local.tags
 }

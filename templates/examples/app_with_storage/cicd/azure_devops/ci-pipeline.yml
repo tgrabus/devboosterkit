@@ -60,6 +60,19 @@ stages:
               command: 'validate'
               workingDirectory: $(TerraformWorkingDirectory)
               environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
+              
+          - task: trivy@2
+            displayName: "👮 Validate terraform misconfigurations"
+            inputs:
+              method: install
+              version: 'latest'
+              type: 'filesystem'
+              target: $(TerraformWorkingDirectory)
+              options: >-
+                --config $(TerraformWorkingDirectory)/trivy.yaml
+                --ignorefile $(TerraformWorkingDirectory)/.trivyignore.yaml
+                --tf-vars $(TerraformWorkingDirectory)/environments/development.tfvars
+              scanners: 'misconfig'
 
   # ----------------------------------------------------------------------------
   # ✅ Validate Dev Plan

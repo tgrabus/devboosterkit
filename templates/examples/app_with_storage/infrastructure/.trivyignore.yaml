@@ -1,0 +1,15 @@
+misconfigurations:   
+  - id: AVD-AZU-0027
+    statement: "Extended auditing policy is configured separately in main.audit.tf"
+    paths:
+      - "Azure/avm-res-sql-server/**"
+
+  - id: AVD-AZU-0016
+    statement: "Purge protection is optional and not enabled by default in the module"
+    paths:
+      - "Azure/avm-res-keyvault-vault/**"
+
+  - id: AVD-AZU-0022
+    statement: "Public network access is controlled via variables"
+    paths:
+      - "Azure/avm-res-sql-server/**"

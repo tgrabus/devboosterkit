@@ -1,5 +1,0 @@
-misconfigurations:   
-  - id: AVD-AZU-0027
-    statement: "Extended auditing policy is configured separately in main.audit.tf"
-    paths:
-      - "Azure/avm-res-sql-server/**"

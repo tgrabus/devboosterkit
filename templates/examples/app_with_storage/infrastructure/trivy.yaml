@@ -7,6 +7,10 @@
 
 # Scan settings
 scan:
+  scanners:
+    - vuln
+    - misconfig
+    
   severity:
     - CRITICAL
     - HIGH
@@ -20,8 +24,14 @@ pkg:
     - library
 
 # Misconfiguration settings
-misconfig:
+misconfiguration:
   include-non-failures: false
+
+  terraform:
+    exclude-downloaded-modules: false
+    
+    vars:
+      - "./environments/development.tfvars"
 
 # Output settings
 format: table
@@ -36,7 +46,7 @@ ignore-unfixed: false
 exit-code: 1
 
 # Ignore file path
-ignorefile: .trivyignore.yaml
+ignorefile: "./.trivyignore.yaml"
 
 # Paths to exclude from scanning
 skip-dirs:
@@ -47,4 +57,3 @@ skip-files:
   - "**/*.tfstate"
   - "**/*.tfstate.backup"
   - "**/*.lock.hcl"
-
