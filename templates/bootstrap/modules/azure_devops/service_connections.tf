@@ -10,8 +10,8 @@ resource "azuredevops_serviceendpoint_azurerm" "alz" {
   }
 
   azurerm_spn_tenantid      = var.azure_tenant_id
-  azurerm_subscription_id   = var.azure_subscription_id
-  azurerm_subscription_name = var.azure_subscription_name
+  azurerm_subscription_id   = each.value.subscription_id
+  azurerm_subscription_name = var.target_subscriptions[each.value.subscription_id].subscription_name
 }
 
 

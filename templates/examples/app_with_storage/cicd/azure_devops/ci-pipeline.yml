@@ -6,7 +6,7 @@ trigger:
   - none
 
 variables:
-  TerraformVersion: "1.12.1"
+  TerraformVersion: "1.14.3"
   TerraformWorkingDirectory: "$(Build.SourcesDirectory)/examples/app_with_storage/infrastructure"
   ServiceConnectionNameDev: 'development'
   ServiceConnectionNameProd: 'production'

@@ -13,6 +13,7 @@ variable "project_name" {
 variable "environments" {
   type = map(object({
     environment_name = string
+    subscription_id  = string
   }))
 }
 
@@ -42,14 +43,6 @@ variable "azure_tenant_id" {
   type = string
 }
 
-variable "azure_subscription_id" {
-  type = string
-}
-
-variable "azure_subscription_name" {
-  type = string
-}
-
 variable "backend_azure_resource_group_name" {
   type = string
 }
@@ -65,4 +58,11 @@ variable "agent_pool_name" {
 variable "create_branch_policies" {
   type    = bool
   default = true
+}
+
+variable "target_subscriptions" {
+  type = map(object({
+    subscription_id   = string
+    subscription_name = string
+  }))
 }

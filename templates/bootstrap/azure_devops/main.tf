@@ -37,4 +37,5 @@ module "azure_devops" {
   backend_azure_resource_group_name  = module.azure.state_storage.resource_group_name
   backend_azure_storage_account_name = module.azure.state_storage.name
   agent_pool_name                    = var.agent_pool_name
+  target_subscriptions               = local.subscriptions_data
 }

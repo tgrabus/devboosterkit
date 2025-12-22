@@ -1,5 +1,15 @@
 locals {
-  target_subscriptions = { for subscription_id in distinct([var.subscription_id_dev, var.subscription_id_production, var.bootstrap_subscription_id]) : subscription_id => subscription_id }
+  target_subscriptions = {
+    for subscription_id in distinct(
+      [var.subscription_id_dev, var.subscription_id_production, var.bootstrap_subscription_id]
+  ) : subscription_id => subscription_id }
+
+  subscriptions_data = {
+    for subscription_id, subscription in data.azurerm_subscription.all : subscription_id => {
+      subscription_id   = subscription_id
+      subscription_name = subscription.display_name
+    }
+  }
 }
 
 locals {

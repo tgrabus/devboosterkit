@@ -53,7 +53,7 @@ jobs:
           backendAzureRmStorageAccountName: $(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)
           backendAzureRmContainerName: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)
           backendAzureRmKey: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)
-          
+
       - task: TerraformTask@5
         name: terraformPlan
         displayName: 'Terraform Plan'
@@ -62,12 +62,15 @@ jobs:
           command: 'plan'
           workingDirectory: ${{ parameters.RootModulePath }}
           commandOptions: >-
-            -input=false -out=$(PlanOutputFile) -detailed-exitcode
+            -input=false
+            -out=$(PlanOutputFile)
+            -detailed-exitcode
+            -var-file=environments/${{ parameters.Environment }}.tfvars
           environmentServiceNameAzureRM: ${{ parameters.AzureRmServiceConnection }}
-          
+
       - script: |
-          echo "TERRAFORM_PLAN_HAS_CHANGES: $(changesPresent)"
-          echo "##vso[task.setvariable variable=PlanHasChanges;isOutput=true]$(changesPresent)"
+          echo "TERRAFORM_PLAN_HAS_CHANGES: $(terraformPlan.changesPresent)"
+          echo "##vso[task.setvariable variable=PlanHasChanges;isOutput=true]$(terraformPlan.changesPresent)"
         displayName: 'Check for changes'
         name: planOutputs
 
@@ -150,4 +153,5 @@ jobs:
                 workingDirectory: '${{ parameters.RootModulePath }}'
                 commandOptions: '-input=false $(Pipeline.Workspace)/$(ArtifactName)/$(PlanOutputFile)'
                 environmentServiceNameAzureRM: ${{ parameters.AzureRmServiceConnection }}
+              
                 
