@@ -1,0 +1,157 @@
+# ==============================================================================
+# Azure DevOps Terraform Deployment Template
+# ==============================================================================
+# This YAML pipeline will:
+#   1. Plan changes
+#   2. Wait for approval
+#   3. Apply changes
+# ==============================================================================
+
+parameters:
+  - name: AzureRmServiceConnection
+    type: string
+    
+  - name: Environment
+    type: string
+
+  - name: RunApproval
+    type: boolean
+    default: false
+    
+  - name: RootModulePath
+    type: string
+
+jobs:
+  
+  # ----------------------------------------------------------------------------
+  # Plan terraform
+  # ----------------------------------------------------------------------------      
+  - job: Plan
+    displayName: "🏗️ Plan for ${{ parameters.Environment }}"
+    timeoutInMinutes: 60
+    variables:
+      PlanOutputFile: '${{ parameters.Environment }}.tfplan'
+      ArtifactName: '${{ parameters.Environment }}_$(System.StageAttempt)'
+    steps:    
+      - checkout: self
+        displayName: "Checkout Repository"
+        
+      - task: TerraformInstaller@1
+        displayName: 'Install Terraform'
+        inputs:
+          terraformVersion: $(terraformVersion)
+
+      - task: TerraformTask@5
+        displayName: 'Init Terraform'
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: ${{ parameters.RootModulePath }}
+          backendServiceArm: ${{ parameters.AzureRmServiceConnection }}
+          backendAzureRmUseEntraIdForAuthentication: true
+          backendAzureRmResourceGroupName: $(BACKEND_AZURE_RESOURCE_GROUP_NAME)
+          backendAzureRmStorageAccountName: $(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)
+          backendAzureRmContainerName: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)
+          backendAzureRmKey: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)
+
+      - task: TerraformTask@5
+        name: terraformPlan
+        displayName: 'Terraform Plan'
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: ${{ parameters.RootModulePath }}
+          commandOptions: >-
+            -input=false
+            -out=$(PlanOutputFile)
+            -detailed-exitcode
+            -var-file=environments/${{ parameters.Environment }}.tfvars
+          environmentServiceNameAzureRM: ${{ parameters.AzureRmServiceConnection }}
+
+      - script: |
+          echo "TERRAFORM_PLAN_HAS_CHANGES: $(terraformPlan.changesPresent)"
+          echo "##vso[task.setvariable variable=PlanHasChanges;isOutput=true]$(terraformPlan.changesPresent)"
+        displayName: 'Check for changes'
+        name: planOutputs
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Terraform Plan'
+        inputs:
+          targetPath: '${{ parameters.RootModulePath }}/$(PlanOutputFile)'
+          artifactName: $(ArtifactName)
+    
+  # ----------------------------------------------------------------------------
+  # Wait for approval
+  # ----------------------------------------------------------------------------
+  - job: Wait_for_Approval
+    variables:
+      PlanHasChanges: $[ dependencies.plan.outputs['planOutputs.PlanHasChanges'] ]
+    condition: and(succeeded(), eq(${{ parameters.RunApproval }}, 'true'), eq(variables['PlanHasChanges'], 'true'))
+    displayName: '⏰ Wait for Approval'
+    dependsOn:
+      - Plan
+    pool: server
+    timeoutInMinutes: 60
+    steps:
+      - task: ManualValidation@1
+        displayName: Approval step
+        inputs:
+          onTimeout: reject
+          allowApproversToApproveTheirOwnRuns: true
+          instructions: 'Please verify terraform plan'
+          approvers: ''
+          notifyUsers: ''
+
+  # ----------------------------------------------------------------------------
+  # Apply changes
+  # ----------------------------------------------------------------------------
+  - deployment: DeployToEnvironment
+    displayName: "🚀 Deploy to ${{ parameters.Environment }}"
+    environment: ${{ parameters.Environment }}
+    dependsOn:
+      - Plan
+      - Wait_for_Approval
+    variables:
+      PlanHasChanges: $[ dependencies.plan.outputs['planOutputs.PlanHasChanges'] ]
+      PlanOutputFile: '${{ parameters.Environment }}.tfplan'
+      ArtifactName: '${{ parameters.Environment }}_$(System.StageAttempt)'
+    condition: and(not(or(failed(), canceled())), eq(variables['PlanHasChanges'], 'true'))
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              displayName: "Checkout Repository"
+
+            - download: current
+              displayName: "Download artifact: $(ArtifactName)"
+              artifact: $(ArtifactName)
+              
+            - task: TerraformInstaller@1
+              displayName: 'Install Terraform'
+              inputs:
+                terraformVersion: $(terraformVersion)
+
+            - task: TerraformTask@5
+              displayName: 'Init Terraform'
+              inputs:
+                provider: 'azurerm'
+                command: 'init'
+                workingDirectory: ${{ parameters.RootModulePath }}
+                backendServiceArm: ${{ parameters.AzureRmServiceConnection }}
+                backendAzureRmUseEntraIdForAuthentication: true
+                backendAzureRmResourceGroupName: $(BACKEND_AZURE_RESOURCE_GROUP_NAME)
+                backendAzureRmStorageAccountName: $(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)
+                backendAzureRmContainerName: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)
+                backendAzureRmKey: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)
+                
+            - task: TerraformTask@5
+              displayName: '🚀 Apply Terraform Plan'
+              inputs:
+                provider: 'azurerm'
+                command: 'apply'
+                workingDirectory: '${{ parameters.RootModulePath }}'
+                commandOptions: '-input=false $(Pipeline.Workspace)/$(ArtifactName)/$(PlanOutputFile)'
+                environmentServiceNameAzureRM: ${{ parameters.AzureRmServiceConnection }}
+              
+                

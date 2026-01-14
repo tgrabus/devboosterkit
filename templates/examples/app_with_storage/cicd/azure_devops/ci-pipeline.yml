@@ -1,0 +1,106 @@
+# ==============================================================================
+# Azure DevOps CI Pipeline
+# ==============================================================================
+
+trigger:
+  - none
+
+variables:
+  TerraformVersion: "1.14.3"
+  TerraformWorkingDirectory: "$(Build.SourcesDirectory)/examples/app_with_storage/infrastructure"
+  ServiceConnectionNameDev: 'development'
+  ServiceConnectionNameProd: 'production'
+  EnvironmentDev: 'development'
+  EnvironmentProd: 'production'
+
+pool:
+  name: 'Sample'
+
+stages:
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Terraform Code
+  # ----------------------------------------------------------------------------
+  - stage: Validate
+    displayName: Validation Terraform
+    jobs:
+      - job: validate
+        displayName: Validate Terraform
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: 'Install Terraform'
+            inputs:
+              terraformVersion: $(TerraformVersion)
+
+          - task: TerraformTask@5
+            displayName: 'Terraform Format Check'
+            inputs:
+              provider: 'azurerm'
+              command: 'custom'
+              customCommand: 'fmt'
+              commandOptions: '-check -recursive'
+              workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
+            
+          - task: TerraformTask@5
+            displayName: 'Terraform Init'
+            inputs:
+              provider: 'azurerm'
+              command: 'custom'
+              customCommand: 'init'
+              commandOptions: '-backend=false'
+              workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
+            
+          - task: TerraformTask@5
+            displayName: 'Terraform Validate'
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+              workingDirectory: $(TerraformWorkingDirectory)
+              environmentServiceNameAzureRM: $(ServiceConnectionNameDev)
+              
+          - task: trivy@2
+            displayName: "👮 Validate terraform misconfigurations"
+            inputs:
+              method: install
+              version: 'latest'
+              type: 'filesystem'
+              target: $(TerraformWorkingDirectory)
+              options: >-
+                --config $(TerraformWorkingDirectory)/trivy.yaml
+                --ignorefile $(TerraformWorkingDirectory)/.trivyignore.yaml
+                --tf-vars $(TerraformWorkingDirectory)/environments/development.tfvars
+              scanners: 'misconfig'
+
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Dev Plan
+  # ----------------------------------------------------------------------------
+  - stage: Plan_Dev
+    displayName: "🏗️ Plan Dev"
+    dependsOn: Validate
+    variables:
+      - group: development
+    jobs:
+      - template: templates/plan-template.yml
+        parameters:
+          AzureRmServiceConnection: $(ServiceConnectionNameDev)
+          Environment: ${{ variables.EnvironmentDev }}
+          RootModulePath: $(TerraformWorkingDirectory)
+          
+  # ----------------------------------------------------------------------------
+  # ✅ Validate Production Plan
+  # ----------------------------------------------------------------------------
+  - stage: Plan_Prod
+    displayName: "🏗️ Plan Production"
+    dependsOn: Validate
+    variables:
+      - group: production
+    jobs:
+      - template: templates/plan-template.yml
+        parameters:
+          AzureRmServiceConnection: $(ServiceConnectionNameProd)
+          Environment: ${{ variables.EnvironmentProd }}
+          RootModulePath: $(TerraformWorkingDirectory)
+          

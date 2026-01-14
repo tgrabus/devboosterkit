@@ -1,0 +1,53 @@
+# ==============================================================================
+# Azure DevOps CD Pipeline
+# ==============================================================================
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - README.md
+      - LICENSE.md
+
+variables:
+  TerraformVersion: "1.14.3"
+  TerraformWorkingDirectory: "$(Build.SourcesDirectory)/examples/app_with_storage/infrastructure"
+
+pool:
+  name: 'Sample'
+
+stages:
+
+  # ----------------------------------------------------------------------------
+  # ✅ Development Deployment
+  # ----------------------------------------------------------------------------
+  - stage: Deploy_Development
+    displayName: "🚀 Development Stage"
+    variables:
+      - group: "development"
+    jobs:
+      - template: templates/cd-template.yml
+        parameters:
+          AzureRmServiceConnection: "development"
+          Environment: "development"
+          RunApproval: false
+          RootModulePath: $(TerraformWorkingDirectory)
+
+  # ----------------------------------------------------------------------------
+  # ✅ Production Deployment
+  # ----------------------------------------------------------------------------
+  - stage: Deploy_Production
+    displayName: "🚀 Production Stage"
+    dependsOn:
+      - Deploy_Development
+    variables:
+      - group: "production"
+    jobs:
+      - template: templates/cd-template.yml
+        parameters:
+          AzureRmServiceConnection: "production"
+          Environment: "production"
+          RunApproval: true
+          RootModulePath: $(TerraformWorkingDirectory)

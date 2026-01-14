@@ -1,0 +1,68 @@
+variable "organization_name" {
+  type = string
+}
+
+variable "create_project" {
+  type = bool
+}
+
+variable "project_name" {
+  type = string
+}
+
+variable "environments" {
+  type = map(object({
+    environment_name = string
+    subscription_id  = string
+  }))
+}
+
+variable "pipelines" {
+  type = map(object({
+    pipeline_name      = string
+    pipeline_file_name = string
+    build_validation   = optional(bool, false)
+  }))
+}
+
+variable "managed_identity_client_ids" {
+  type = map(string)
+}
+
+variable "repository_name" {
+  type = string
+}
+
+variable "repository_files" {
+  type = map(object({
+    content = string
+  }))
+}
+
+variable "azure_tenant_id" {
+  type = string
+}
+
+variable "backend_azure_resource_group_name" {
+  type = string
+}
+
+variable "backend_azure_storage_account_name" {
+  type = string
+}
+
+variable "agent_pool_name" {
+  type = string
+}
+
+variable "create_branch_policies" {
+  type    = bool
+  default = true
+}
+
+variable "target_subscriptions" {
+  type = map(object({
+    subscription_id   = string
+    subscription_name = string
+  }))
+}
